@@ -30,7 +30,7 @@ under it.
    easiest way is webOS Dev Manager).
 2. **Open it:** it shows a 6-digit code. Press **Back** to hide the screen if the PC is on another
    input of this TV: it keeps waiting for 10 minutes, with the same code.
-3. **On the PC:** in VI Translator, *Source* tab, *Show on a TV*, *Connect a TV*. Type the code and
+3. **On the PC:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
    press *Connect*. Sharing on the home network is turned on if it was off.
 4. **Press Back** to hide the app's screen, and switch to the console's input. The translations
    show over it.
