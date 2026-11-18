@@ -26,7 +26,8 @@ under it.
 
 ## Setup
 
-1. **Install the app on the TV** (it isn't in the LG Content Store; see *Install* below).
+1. **Install the app on the TV** (it isn't in the LG Content Store; see *Install* below, the
+   easiest way is webOS Dev Manager).
 2. **Open it:** it shows a 6-digit code. Press **Back** to hide the screen if the PC is on another
    input of this TV: it keeps waiting for 10 minutes, with the same code.
 3. **On the PC:** in VI Translator, *Source* tab, *Show on a TV*, *Connect a TV*. Type the code and
@@ -63,20 +64,34 @@ from webOS 5. So:
 
 The app is installed with LG's Developer Mode (no rooting):
 
-1. Make an account on [webostv.developer.lge.com](https://webostv.developer.lge.com/).
+1. Make a free account on [webostv.developer.lge.com](https://webostv.developer.lge.com/).
 2. On the TV, install **Developer Mode** from the LG Content Store, open it, sign in, turn on
    *Dev Mode Status* (the TV restarts) and turn on *Key Server*.
-3. On the PC (Node.js 18 or newer), in this folder:
+3. Install the app from the PC, either way:
 
-   ```sh
-   npm install
-   npx ares-setup-device        # add: the TV's IP address, port 9922, user "prisoner"
-   npx ares-novacom --device <name> --getkey   # the passphrase shown in Developer Mode
-   npm run install-tv           # builds, installs and opens the app on the default TV
-   ```
+### With webOS Dev Manager (no command line)
+
+1. Install [webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop/releases/latest)
+   (free; Windows, macOS, Linux).
+2. *Add Device*: the TV's IP address and the passphrase shown in the Developer Mode app.
+3. Download `vi-translator-webos-tv-X.Y.Z.ipk` from the
+   [latest release](https://github.com/vi-translator/vi-translator-webos-tv/releases/latest) and
+   install it on the TV with webOS Dev Manager.
+
+### From this folder (to build it yourself)
+
+With Node.js 18 or newer:
+
+```sh
+npm install
+npx ares-setup-device        # add: the TV's IP address, port 9922, user "prisoner"
+npx ares-novacom --device <name> --getkey   # the passphrase shown in Developer Mode
+npm run install-tv           # builds, installs and opens the app on the default TV
+```
 
 Developer Mode runs for a limited time: open the Developer Mode app now and then and press
-*Extend*, or the TV removes the apps installed with it.
+*Extend*, or the TV removes the apps installed with it. webOS Dev Manager can also renew it on a
+schedule.
 
 ## Tips
 
