@@ -10,8 +10,8 @@ So the app is installed from its GitHub Release (`vi-translator-webos-tv-X.Y.Z.i
 ways:
 
 - **Developer Mode** (any webOS 5+ TV, no rooting): the steps in the main README's *Install*. The
-  Developer Mode session expires and has to be extended in the Developer Mode app, or the app stops
-  opening.
+  Developer Mode session expires and has to be extended in the Developer Mode app, or the TV removes
+  the app.
 - **Homebrew Channel**, on TVs that have it: install the `.ipk` with it. A listing in the community
   repository (https://github.com/webosbrew/apps-repo) would let people install and update it from the
   Homebrew Channel itself.
