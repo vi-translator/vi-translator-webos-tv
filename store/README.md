@@ -1,44 +1,23 @@
-# LG Content Store: what to submit
+# Distribution: outside the LG Content Store
 
-Submitted through **LG Seller Lounge** (https://seller.lgappstv.com), as a *Web app* for webOS TV.
+The app is **not** in the LG Content Store. LG Seller Lounge rejects the package at upload with
+"appinfo.json is not suitable - defaultWindowType": the store doesn't allow
+`"defaultWindowType": "overlay"`, and without it the app can't draw over the console's HDMI input,
+which is its purpose. (Tried 2026-11-18 with 1.0.0; a draft with App ID `app.vitranslator.tv` was
+started in Seller Lounge and left unsubmitted.)
 
-- **Text, 33 languages:** `listing/<code>.json`, with `title`, `short` (≤ 80), `description` (≤ 4000) and
-  `release_notes`. Paste each language into the matching language of the app's information page.
-- **Images:** `images/`
-  - `icon-80.png` and `icon-130.png`, the same files as the app's `icon.png` and `largeIcon.png`
-  - `icon-400.png` and `icon-512.png`, if the form asks for a larger icon
-  - `screenshots/*.png` 1920×1080
-- **The app:** the `.ipk` from the GitHub Release (`vi-translator-webos-tv-X.Y.Z.ipk`).
+So the app is installed from its GitHub Release (`vi-translator-webos-tv-X.Y.Z.ipk`) in one of these
+ways:
 
-Check the current image sizes in Seller Lounge when you submit; LG changes them between years.
+- **Developer Mode** (any webOS 5+ TV, no rooting): the steps in the main README's *Install*. The
+  Developer Mode session expires and has to be extended in the Developer Mode app, or the app stops
+  opening.
+- **Homebrew Channel**, on TVs that have it: install the `.ipk` with it. A listing in the community
+  repository (https://github.com/webosbrew/apps-repo) would let people install and update it from the
+  Homebrew Channel itself.
 
-## Answers
+## Kept from the store attempt
 
-| Field | Answer |
-| --- | --- |
-| Category | Utility (or Lifestyle) |
-| Price | Free |
-| Supported webOS | 5.0 and later (2020 TVs and newer) |
-| Privacy policy | https://vitranslator.app/privacy/ |
-| Age rating | All ages |
-| Countries | Start with the ones you can support; each country is tested separately |
-
-## Know before submitting
-
-- The app draws over other inputs with a window kind LG doesn't document (`"defaultWindowType": "overlay"`).
-  LG's QA may question or reject it. Explain in the test notes that the overlay is the app's purpose
-  and that it never takes the remote while hidden.
-- Test it on a real LG TV (webOS 5 or newer) with the real PC app before submitting.
-
-## Test notes for LG QA
-
-> VI Translator for webOS shows translated subtitles over the TV picture, for console players. The
-> subtitles come from the free VI Translator app on a Windows, macOS or Linux PC on the same network
-> (https://github.com/vi-translator/vi-translator-desktop/releases). To test:
-> 1. Open the app: it shows a 6-digit code.
-> 2. On the PC, start VI Translator, open *Source → Show on a TV → Connect a TV*, type the code, press *Connect*.
-> 3. In the PC app pick any source (a capture card, or *Screen* to read the PC's own screen) with English
->    subtitles on screen. Press Back on the TV: the app's screen hides and the translations show over the picture.
-> 4. Open the app again from the launcher for *Show on* (one HDMI input or all) and *Disconnect*.
-> A video of the whole flow: <add a link to an unlisted video>.
-> No account or login is needed.
+`listing/<code>.json` (title, short text, description and release notes in 33 languages) and
+`images/` (icons and 1920×1080 screenshots) are still useful for the Homebrew Channel listing and for
+the website.
