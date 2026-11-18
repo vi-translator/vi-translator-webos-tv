@@ -1,0 +1,16 @@
+{
+  "id": "app.vitranslator.tv.service",
+  "description": "VI Translator: connects this TV to VI Translator on the PC",
+  "services": [
+    {
+      "name": "app.vitranslator.tv.service",
+      "description": "Waits for the PC to connect this TV, and asks the PC how it is",
+      "commands": [
+        { "name": "pair", "description": "Wait to be connected: sends the code, then the connection (subscription)" },
+        { "name": "ask", "description": "How the PC is" },
+        { "name": "forget", "description": "Tell the PC this TV disconnected" },
+        { "name": "find", "description": "Look for the PC at a new address" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "vi-translator-webos-tv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VI Translator's live subtitles on an LG webOS TV, over the game from your console",
+  "license": "UNLICENSED",
+  "scripts": {
+    "strings": "node tools/strings.mjs",
+    "check": "node tools/check.mjs",
+    "build": "node tools/check.mjs && node tools/build.mjs",
+    "dev": "node tools/dev.mjs --mock-pc --inputs",
+    "install-tv": "node tools/build.mjs --install",
+    "inspect": "ares-inspect --app app.vitranslator.tv --open"
+  },
+  "devDependencies": {
+    "@webos-tools/cli": "3.2.6",
+    "acorn": "8.15.0"
+  }
+}

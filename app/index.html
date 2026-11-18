@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>VI Translator</title>
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <!-- the translations: the PC app's TV page, transparent, over the whole picture -->
+    <iframe id="overlay" src="about:blank" tabindex="-1" allowtransparency="true" scrolling="no"></iframe>
+
+    <!-- the screen, minimal: the code while waiting; the connection, Show on and Disconnect once connected -->
+    <div id="panel">
+      <div id="column">
+        <div id="brand"><img src="logo.png" alt="" /><span class="sunset">VI TRANSLATOR</span></div>
+        <div class="line"></div>
+
+        <div id="waiting" class="hidden">
+          <div id="enterCode" class="text"></div>
+          <div id="code" dir="ltr"></div>
+          <div id="whereOnPc" class="muted"></div>
+          <div id="thisTv" class="muted small"></div>
+        </div>
+
+        <div id="connected" class="hidden">
+          <div id="status"><span id="dot"></span><span id="statusText"></span></div>
+          <div id="buttons">
+            <button id="showOn" class="hidden"></button>
+            <button id="disconnect"></button>
+          </div>
+        </div>
+
+        <div id="hint" class="muted small"></div>
+      </div>
+    </div>
+
+    <script src="js/strings.js"></script>
+    <script src="js/luna.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

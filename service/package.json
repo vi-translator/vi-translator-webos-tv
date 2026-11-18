@@ -1,0 +1,7 @@
+{
+  "name": "app.vitranslator.tv.service",
+  "version": "1.0.0",
+  "description": "VI Translator for webOS: connects this TV to VI Translator on the PC",
+  "main": "service.js",
+  "private": true
+}
