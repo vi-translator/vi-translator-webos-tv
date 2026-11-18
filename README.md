@@ -90,7 +90,7 @@ Needs Node.js 18 or newer:
 
 ```sh
 npm install
-npm run build        # dist/vi-translator-webos_<version>.ipk (checks the code for webOS 5 first)
+npm run build        # dist/vi-translator-webos-tv-<version>.ipk (checks the code for webOS 5 first)
 npm run dev          # try it in a browser without a TV: http://127.0.0.1:8793/?dev=http://127.0.0.1:8793
 npm run inspect      # Chrome DevTools for the app on the TV
 ```
@@ -100,6 +100,26 @@ npm run inspect      # Chrome DevTools for the app on the TV
   8792) and asks the PC how it is: a web app can't do either on webOS.
 - `tools/strings.mjs` makes `app/js/strings.js` (33 languages) from the Android TV app's
   `strings.xml` files, plus `tools/extra-strings.json` for the strings only this app has.
+
+## Release
+
+Pushing a tag `vX.Y.Z` runs `.github/workflows/release.yml`. It checks that the tag looks like
+`v1.2.3` and is newer than the latest release. It then sets the version from the tag (in
+`app/appinfo.json` and both `package.json` files) and builds `vi-translator-webos-tv-X.Y.Z.ipk`.
+Last, it attaches that file to a GitHub Release called "VI Translator for LG webOS TVs X.Y.Z".
+
+```sh
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+No secrets are needed, because Developer Mode installs unsigned packages. To install a released
+`.ipk` on a TV that is set up for Developer Mode (see Install):
+
+```sh
+npx ares-install vi-translator-webos-tv-1.0.0.ipk
+npx ares-launch app.vitranslator.tv
+```
 
 ## Credits
 

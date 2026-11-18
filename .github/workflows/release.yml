@@ -1,0 +1,107 @@
+# Pushing a tag vX.Y.Z releases version X.Y.Z of the app: vi-translator-webos-tv-X.Y.Z.ipk (the web app
+# and its service, packaged with LG's ares-package), attached to a GitHub Release. It's installed on the
+# TV with Developer Mode (README, "Install").
+#
+# Same tag rules as the desktop app: the tag must look like v1.2.3 and be newer than the latest release.
+#
+# Repository secrets: none. ares-package doesn't sign (Developer Mode installs unsigned .ipk files).
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - name: Check the tag
+        id: v
+        run: |
+          V="${GITHUB_REF_NAME#v}"
+          if ! echo "$V" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Tags must look like v1.2.3 (got $GITHUB_REF_NAME)"; exit 1
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Must be newer than the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          CUR=$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName 2>/dev/null || true)
+          CUR="${CUR#v}"
+          echo "latest release: ${CUR:-none}, tag: $V"
+          if [ -n "$CUR" ] && { [ "$CUR" = "$V" ] || [ "$(printf '%s\n%s\n' "$CUR" "$V" | sort -V | tail -n1)" != "$V" ]; }; then
+            echo "::error::$V is not newer than the latest release $CUR"; exit 1
+          fi
+
+  build:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Version from the tag
+        # (the app's appinfo.json is what the TV shows; tools/check.mjs wants package.json to match it)
+        run: |
+          for f in app/appinfo.json package.json service/package.json; do
+            perl -0pi -e 's/"version": "[^"]*"/"version": "$ENV{VERSION}"/' "$f"
+            grep -m1 '"version"' "$f"
+          done
+
+      - name: webOS CLI
+        run: npm ci
+
+      # checks the code parses on webOS 5 (tools/check.mjs), then ares-package (tools/build.mjs)
+      - name: Build
+        run: npm run build
+
+      - name: The package
+        run: |
+          F="dist/vi-translator-webos-tv-$VERSION.ipk"
+          [ -f "$F" ] || { echo "::error::$F wasn't made"; ls -l dist; exit 1; }
+          ls -l dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vi-translator-webos-tv
+          path: dist/vi-translator-webos-tv-*.ipk
+          if-no-files-found: error
+
+  release:
+    needs: [check, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: out
+          merge-multiple: true
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ needs.check.outputs.version }}
+        run: |
+          ls -l out
+          gh release create "$GITHUB_REF_NAME" out/* --repo "$GITHUB_REPOSITORY" \
+            --title "VI Translator for LG webOS TVs $V" --generate-notes --verify-tag

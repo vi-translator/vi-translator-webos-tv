@@ -1,4 +1,4 @@
-// Packages the app and its service into dist/vi-translator-webos_<version>.ipk, with LG's ares-package.
+// Packages the app and its service into dist/vi-translator-webos-tv-<version>.ipk, with LG's ares-package.
 //
 //   node tools/build.mjs                       build
 //   node tools/build.mjs --install [device]    build, then install and open it on the TV set up with
@@ -29,7 +29,7 @@ mkdirSync(dist, { recursive: true });
 // (not minified: readable when inspected on the TV with ares-inspect)
 run("ares-package", ["--no-minify", join(root, "app"), join(root, "service"), "-o", out]);
 const ipk = readdirSync(out).find((f) => f.endsWith(".ipk"));
-const name = `vi-translator-webos_${appinfo.version}.ipk`;
+const name = `vi-translator-webos-tv-${appinfo.version}.ipk`;
 renameSync(join(out, ipk), join(dist, name));
 console.log(`dist/${name}`);
 
