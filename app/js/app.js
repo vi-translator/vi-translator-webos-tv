@@ -163,10 +163,24 @@
     }
   }
 
+  /**
+   * The window's "needFocus" property says whether the remote's keys come to it: without it, an
+   * overlay window keeps them even when its input region is empty (tried on the webOS 5 emulator,
+   * where setInputRegion and setKeyMask alone left the keys with this app).
+   */
+  function needFocus(on) {
+    if (!sys || typeof sys.setWindowProperty !== "function") return;
+    try {
+      sys.setWindowProperty("needFocus", on ? "true" : "false");
+    } catch (e) {
+      // (not on this TV)
+    }
+  }
+
   /** The remote comes to this window (its screen shows). */
   function takeRemote() {
+    needFocus(true);
     system("setInputRegion", [{ x: 0, y: 0, width: 1920, height: 1080 }]);
-    system("setKeyMask", ["KeyMaskDefault"]);
     if (sys && typeof sys.activate === "function") {
       try {
         sys.activate();
@@ -178,8 +192,9 @@
 
   /** The remote stays with the TV and the input under this window (only the translations show). */
   function giveRemote() {
+    needFocus(false);
+    // (and the Magic Remote's pointer)
     system("setInputRegion", [{ x: 0, y: 0, width: 0, height: 0 }]);
-    system("setKeyMask", []);
   }
 
   // ---- the screen -------------------------------------------------------------------------
