@@ -10,6 +10,8 @@ var STRINGS = {
   "show_on": "Show on: {0}",
   "all_inputs": "All inputs",
   "disconnect": "Disconnect",
+  "language": "App language",
+  "language_tv": "TV language",
   "hide_hint": "Press Back to hide this screen"
  },
  "ar": {
@@ -22,6 +24,8 @@ var STRINGS = {
   "show_on": "العرض على: {0}",
   "all_inputs": "كل المداخل",
   "disconnect": "قطع الاتصال",
+  "language": "لغة التطبيق",
+  "language_tv": "لغة التلفاز",
   "hide_hint": "اضغط «رجوع» لإخفاء هذه الشاشة"
  },
  "es-419": {
@@ -34,6 +38,8 @@ var STRINGS = {
   "show_on": "Mostrar en: {0}",
   "all_inputs": "Todas las entradas",
   "disconnect": "Desconectar",
+  "language": "Idioma de la app",
+  "language_tv": "Idioma de la TV",
   "hide_hint": "Presiona Atrás para ocultar esta pantalla"
  },
  "zh-Hans": {
@@ -46,6 +52,8 @@ var STRINGS = {
   "show_on": "显示于：{0}",
   "all_inputs": "所有输入源",
   "disconnect": "断开连接",
+  "language": "界面语言",
+  "language_tv": "电视语言",
   "hide_hint": "按返回键隐藏此画面"
  },
  "zh-Hant": {
@@ -58,6 +66,8 @@ var STRINGS = {
   "show_on": "顯示於：{0}",
   "all_inputs": "所有輸入來源",
   "disconnect": "中斷連線",
+  "language": "介面語言",
+  "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面"
  },
  "bn": {
@@ -70,6 +80,8 @@ var STRINGS = {
   "show_on": "দেখান: {0}",
   "all_inputs": "সব ইনপুট",
   "disconnect": "সংযোগ বিচ্ছিন্ন করুন",
+  "language": "অ্যাপের ভাষা",
+  "language_tv": "টিভির ভাষা",
   "hide_hint": "এই স্ক্রিন লুকাতে Back চাপুন"
  },
  "cs": {
@@ -82,6 +94,8 @@ var STRINGS = {
   "show_on": "Zobrazit na: {0}",
   "all_inputs": "Všechny vstupy",
   "disconnect": "Odpojit",
+  "language": "Jazyk aplikace",
+  "language_tv": "Jazyk televize",
   "hide_hint": "Stisknutím Zpět tuto obrazovku skryjete"
  },
  "de": {
@@ -94,6 +108,8 @@ var STRINGS = {
   "show_on": "Zeigen auf: {0}",
   "all_inputs": "Allen Eingängen",
   "disconnect": "Trennen",
+  "language": "App-Sprache",
+  "language_tv": "Sprache des Fernsehers",
   "hide_hint": "Drücke Zurück, um diesen Bildschirm auszublenden"
  },
  "el": {
@@ -106,6 +122,8 @@ var STRINGS = {
   "show_on": "Προβολή σε: {0}",
   "all_inputs": "Όλες τις εισόδους",
   "disconnect": "Αποσύνδεση",
+  "language": "Γλώσσα εφαρμογής",
+  "language_tv": "Γλώσσα τηλεόρασης",
   "hide_hint": "Πατήστε Πίσω για απόκρυψη αυτής της οθόνης"
  },
  "es": {
@@ -118,6 +136,8 @@ var STRINGS = {
   "show_on": "Mostrar en: {0}",
   "all_inputs": "Todas las entradas",
   "disconnect": "Desconectar",
+  "language": "Idioma de la aplicación",
+  "language_tv": "Idioma de la tele",
   "hide_hint": "Pulsa Atrás para ocultar esta pantalla"
  },
  "es-MX": {
@@ -130,6 +150,8 @@ var STRINGS = {
   "show_on": "Mostrar en: {0}",
   "all_inputs": "Todas las entradas",
   "disconnect": "Desconectar",
+  "language": "Idioma de la app",
+  "language_tv": "Idioma de la TV",
   "hide_hint": "Presiona Atrás para ocultar esta pantalla"
  },
  "fa": {
@@ -142,6 +164,8 @@ var STRINGS = {
   "show_on": "نمایش روی: {0}",
   "all_inputs": "همه ورودی‌ها",
   "disconnect": "قطع اتصال",
+  "language": "زبان برنامه",
+  "language_tv": "زبان تلویزیون",
   "hide_hint": "برای پنهان کردن این صفحه، «بازگشت» را بزنید"
  },
  "fil": {
@@ -154,6 +178,8 @@ var STRINGS = {
   "show_on": "Ipakita sa: {0}",
   "all_inputs": "Lahat ng input",
   "disconnect": "Idiskonekta",
+  "language": "Wika ng app",
+  "language_tv": "Wika ng TV",
   "hide_hint": "Pindutin ang Back para itago ang screen na ito"
  },
  "fr": {
@@ -166,6 +192,8 @@ var STRINGS = {
   "show_on": "Afficher sur : {0}",
   "all_inputs": "Toutes les entrées",
   "disconnect": "Déconnecter",
+  "language": "Langue de l'application",
+  "language_tv": "Langue de la TV",
   "hide_hint": "Appuyez sur Retour pour masquer cet écran"
  },
  "hi": {
@@ -178,6 +206,8 @@ var STRINGS = {
   "show_on": "दिखाएँ: {0}",
   "all_inputs": "सभी इनपुट",
   "disconnect": "डिस्कनेक्ट करें",
+  "language": "ऐप की भाषा",
+  "language_tv": "टीवी की भाषा",
   "hide_hint": "इस स्क्रीन को छिपाने के लिए Back दबाएँ"
  },
  "id": {
@@ -190,6 +220,8 @@ var STRINGS = {
   "show_on": "Tampilkan di: {0}",
   "all_inputs": "Semua input",
   "disconnect": "Putuskan",
+  "language": "Bahasa aplikasi",
+  "language_tv": "Bahasa TV",
   "hide_hint": "Tekan Kembali untuk menyembunyikan layar ini"
  },
  "it": {
@@ -202,6 +234,8 @@ var STRINGS = {
   "show_on": "Mostra su: {0}",
   "all_inputs": "Tutti gli ingressi",
   "disconnect": "Scollega",
+  "language": "Lingua dell'app",
+  "language_tv": "Lingua della TV",
   "hide_hint": "Premi Indietro per nascondere questa schermata"
  },
  "ja": {
@@ -214,6 +248,8 @@ var STRINGS = {
   "show_on": "表示: {0}",
   "all_inputs": "すべての入力",
   "disconnect": "接続を解除",
+  "language": "アプリの言語",
+  "language_tv": "テレビの言語",
   "hide_hint": "戻るボタンでこの画面を隠します"
  },
  "ko": {
@@ -226,6 +262,8 @@ var STRINGS = {
   "show_on": "표시: {0}",
   "all_inputs": "모든 입력",
   "disconnect": "연결 해제",
+  "language": "앱 언어",
+  "language_tv": "TV 언어",
   "hide_hint": "뒤로 버튼을 눌러 이 화면을 숨기세요"
  },
  "mr": {
@@ -238,6 +276,8 @@ var STRINGS = {
   "show_on": "दाखवा: {0}",
   "all_inputs": "सर्व इनपुट",
   "disconnect": "डिस्कनेक्ट करा",
+  "language": "ॲपची भाषा",
+  "language_tv": "टीव्हीची भाषा",
   "hide_hint": "ही स्क्रीन लपवण्यासाठी Back दाबा"
  },
  "ms": {
@@ -250,6 +290,8 @@ var STRINGS = {
   "show_on": "Tunjukkan pada: {0}",
   "all_inputs": "Semua input",
   "disconnect": "Putuskan sambungan",
+  "language": "Bahasa aplikasi",
+  "language_tv": "Bahasa TV",
   "hide_hint": "Tekan Kembali untuk menyembunyikan skrin ini"
  },
  "nl": {
@@ -262,6 +304,8 @@ var STRINGS = {
   "show_on": "Tonen op: {0}",
   "all_inputs": "Alle ingangen",
   "disconnect": "Ontkoppelen",
+  "language": "App-taal",
+  "language_tv": "Taal van de tv",
   "hide_hint": "Druk op Terug om dit scherm te verbergen"
  },
  "pl": {
@@ -274,6 +318,8 @@ var STRINGS = {
   "show_on": "Pokazuj na: {0}",
   "all_inputs": "Wszystkich wejściach",
   "disconnect": "Rozłącz",
+  "language": "Język aplikacji",
+  "language_tv": "Język telewizora",
   "hide_hint": "Naciśnij Wstecz, aby ukryć ten ekran"
  },
  "pt": {
@@ -286,6 +332,8 @@ var STRINGS = {
   "show_on": "Mostrar em: {0}",
   "all_inputs": "Todas as entradas",
   "disconnect": "Desconectar",
+  "language": "Idioma do app",
+  "language_tv": "Idioma da TV",
   "hide_hint": "Pressione Voltar para ocultar esta tela"
  },
  "pt-BR": {
@@ -298,6 +346,8 @@ var STRINGS = {
   "show_on": "Mostrar em: {0}",
   "all_inputs": "Todas as entradas",
   "disconnect": "Desconectar",
+  "language": "Idioma do app",
+  "language_tv": "Idioma da TV",
   "hide_hint": "Pressione Voltar para ocultar esta tela"
  },
  "ro": {
@@ -310,6 +360,8 @@ var STRINGS = {
   "show_on": "Afișează pe: {0}",
   "all_inputs": "Toate intrările",
   "disconnect": "Deconectează",
+  "language": "Limba aplicației",
+  "language_tv": "Limba televizorului",
   "hide_hint": "Apasă Înapoi pentru a ascunde acest ecran"
  },
  "ru": {
@@ -322,6 +374,8 @@ var STRINGS = {
   "show_on": "Показывать на: {0}",
   "all_inputs": "Всех входах",
   "disconnect": "Отключить",
+  "language": "Язык приложения",
+  "language_tv": "Язык телевизора",
   "hide_hint": "Нажмите «Назад», чтобы скрыть этот экран"
  },
  "sw": {
@@ -334,6 +388,8 @@ var STRINGS = {
   "show_on": "Onyesha kwenye: {0}",
   "all_inputs": "Viingizo vyote",
   "disconnect": "Tenganisha",
+  "language": "Lugha ya programu",
+  "language_tv": "Lugha ya TV",
   "hide_hint": "Bonyeza Nyuma ili kuficha skrini hii"
  },
  "ta": {
@@ -346,6 +402,8 @@ var STRINGS = {
   "show_on": "காட்டு: {0}",
   "all_inputs": "அனைத்து உள்ளீடுகள்",
   "disconnect": "துண்டி",
+  "language": "செயலியின் மொழி",
+  "language_tv": "டிவியின் மொழி",
   "hide_hint": "இந்தத் திரையை மறைக்க Back-ஐ அழுத்தவும்"
  },
  "te": {
@@ -358,6 +416,8 @@ var STRINGS = {
   "show_on": "చూపించు: {0}",
   "all_inputs": "అన్ని ఇన్‌పుట్‌లు",
   "disconnect": "డిస్‌కనెక్ట్ చేయి",
+  "language": "యాప్ భాష",
+  "language_tv": "టీవీ భాష",
   "hide_hint": "ఈ స్క్రీన్‌ను దాచడానికి Back నొక్కండి"
  },
  "th": {
@@ -370,6 +430,8 @@ var STRINGS = {
   "show_on": "แสดงบน: {0}",
   "all_inputs": "ทุกอินพุต",
   "disconnect": "ยกเลิกการเชื่อมต่อ",
+  "language": "ภาษาของแอป",
+  "language_tv": "ภาษาของทีวี",
   "hide_hint": "กดย้อนกลับเพื่อซ่อนหน้าจอนี้"
  },
  "tl": {
@@ -382,6 +444,8 @@ var STRINGS = {
   "show_on": "Ipakita sa: {0}",
   "all_inputs": "Lahat ng input",
   "disconnect": "Idiskonekta",
+  "language": "Wika ng app",
+  "language_tv": "Wika ng TV",
   "hide_hint": "Pindutin ang Back para itago ang screen na ito"
  },
  "tr": {
@@ -394,6 +458,8 @@ var STRINGS = {
   "show_on": "Göster: {0}",
   "all_inputs": "Tüm girişler",
   "disconnect": "Bağlantıyı kes",
+  "language": "Uygulama dili",
+  "language_tv": "Televizyonun dili",
   "hide_hint": "Bu ekranı gizlemek için Geri'ye basın"
  },
  "uk": {
@@ -406,6 +472,8 @@ var STRINGS = {
   "show_on": "Показувати на: {0}",
   "all_inputs": "Усіх входах",
   "disconnect": "Від'єднати",
+  "language": "Мова застосунку",
+  "language_tv": "Мова телевізора",
   "hide_hint": "Натисніть «Назад», щоб приховати цей екран"
  },
  "ur": {
@@ -418,6 +486,8 @@ var STRINGS = {
   "show_on": "دکھائیں: {0}",
   "all_inputs": "تمام ان پٹ",
   "disconnect": "منقطع کریں",
+  "language": "ایپ کی زبان",
+  "language_tv": "ٹی وی کی زبان",
   "hide_hint": "یہ اسکرین چھپانے کے لیے Back دبائیں"
  },
  "vi": {
@@ -430,6 +500,8 @@ var STRINGS = {
   "show_on": "Hiển thị trên: {0}",
   "all_inputs": "Mọi đầu vào",
   "disconnect": "Ngắt kết nối",
+  "language": "Ngôn ngữ ứng dụng",
+  "language_tv": "Ngôn ngữ của TV",
   "hide_hint": "Nhấn Quay lại để ẩn màn hình này"
  },
  "zh-CN": {
@@ -442,6 +514,8 @@ var STRINGS = {
   "show_on": "显示于：{0}",
   "all_inputs": "所有输入源",
   "disconnect": "断开连接",
+  "language": "界面语言",
+  "language_tv": "电视语言",
   "hide_hint": "按返回键隐藏此画面"
  },
  "zh-HK": {
@@ -454,6 +528,8 @@ var STRINGS = {
   "show_on": "顯示於：{0}",
   "all_inputs": "所有輸入來源",
   "disconnect": "中斷連線",
+  "language": "介面語言",
+  "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面"
  },
  "zh-TW": {
@@ -466,6 +542,8 @@ var STRINGS = {
   "show_on": "顯示於：{0}",
   "all_inputs": "所有輸入來源",
   "disconnect": "中斷連線",
+  "language": "介面語言",
+  "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面"
  }
 };

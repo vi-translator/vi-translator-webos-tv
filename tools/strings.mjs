@@ -16,7 +16,7 @@ if (!existsSync(res)) {
 }
 
 /** the strings this app shows */
-const KEYS = ["enter_code", "where_on_pc", "this_tv", "connected_to", "looking_for", "overlays_off", "show_on", "all_inputs", "disconnect"];
+const KEYS = ["enter_code", "where_on_pc", "this_tv", "connected_to", "looking_for", "overlays_off", "show_on", "all_inputs", "disconnect", "language", "language_tv"];
 
 /** "values-b+es+419" → "es-419", "values-zh-rTW" → "zh-TW", "values-in" → "id", "values" → "en" */
 function locale(dir) {

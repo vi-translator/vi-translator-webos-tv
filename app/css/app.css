@@ -1,4 +1,8 @@
-/* The desktop app's Vice City look (its dark theme): night purple, a sunset gradient, neon teal. */
+/*
+ * The desktop app's Vice City look (its dark theme): night purple, a sunset gradient, neon teal.
+ * The same as the Android TV app (Look.kt, MainActivity.kt): its sizes are in dp on a 1080p TV,
+ * where 1 dp is 2 px, so here every size is twice the Android one.
+ */
 @font-face {
   font-family: "Changa";
   src: url("../changa.ttf") format("truetype");
@@ -26,6 +30,7 @@ body {
   /* transparent: the TV picture shows under the translations */
   background: transparent;
   font-family: "Changa", sans-serif;
+  font-weight: 400;
   color: var(--text);
 }
 
@@ -51,7 +56,7 @@ body {
   left: 0;
   width: 1920px;
   height: 1080px;
-  background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 33%, #1c1030 66%, var(--bg-glow) 100%);
+  background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 33.3%, #1c1030 66.7%, var(--bg-glow) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,106 +69,130 @@ body {
   text-align: center;
 }
 
+#waiting,
+#connected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* the brand: logo and name in the sunset gradient (64 dp logo, 44 sp name) */
 #brand {
   display: flex;
   align-items: center;
 }
 
 #brand img {
-  width: 96px;
-  height: 96px;
-  margin: 0 18px;
+  width: 128px;
+  height: 128px;
 }
 
-/* text painted with the sunset gradient (pink to orange), with a soft pink glow */
+/* text painted with the sunset gradient (pink to orange), with a soft pink glow (14 dp) */
 .sunset {
-  font-size: 66px;
+  font-size: 88px;
   font-weight: 800;
+  line-height: 1.2;
+  /* (room for the glow to fade out, 18 dp) */
+  padding: 36px;
   background: linear-gradient(to right, var(--pink), var(--orange));
-  -webkit-background-clip: text;
+  background-origin: content-box;
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 14px rgba(255, 90, 165, 0.53));
+  filter: drop-shadow(0 0 14px rgba(255, 90, 165, 0.53)) drop-shadow(0 0 28px rgba(255, 90, 165, 0.4));
 }
 
-/* a thin sunset line, like the desktop app's header */
+/* a thin sunset line, like the desktop app's header (520 × 3 dp) */
 .line {
-  width: 780px;
-  height: 4px;
-  margin: 14px 0 50px;
+  width: 1040px;
+  height: 6px;
+  margin: 20px 0 68px;
   background: linear-gradient(to right, rgba(255, 90, 165, 0), var(--pink), var(--orange), rgba(255, 154, 74, 0));
 }
 
+/* 22 sp */
 .text {
-  font-size: 33px;
-}
-
-.muted {
-  color: var(--muted);
-  font-size: 24px;
-}
-
-.small {
-  font-size: 21px;
-}
-
-/* neon: the colour with a glow of itself */
-#code {
-  font-size: 144px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: var(--neon);
-  text-shadow: 0 0 27px rgba(62, 240, 216, 0.67);
-  padding: 10px 0 10px 0.12em;
-  min-height: 1.3em;
+  font-size: 44px;
   line-height: 1.3;
 }
 
+/* 16 sp */
+.muted {
+  color: var(--muted);
+  font-size: 32px;
+  line-height: 1.3;
+}
+
+/* 14 sp */
+.small {
+  font-size: 28px;
+}
+
+/* the code: 96 sp, neon (the colour with a glow of itself, 18 dp) */
+#code {
+  font-size: 192px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+  color: var(--neon);
+  text-shadow: 0 0 18px rgba(62, 240, 216, 0.67), 0 0 36px rgba(62, 240, 216, 0.67);
+  /* (room for the glow; the letter spacing's last gap balanced on the left) */
+  padding: 0 36px 0 calc(36px + 0.12em);
+  min-height: 1.25em;
+}
+
 #thisTv {
-  padding-top: 27px;
+  padding-top: 36px;
 }
 
 #hint {
-  padding-top: 60px;
+  padding-top: 48px;
 }
 
+/* the connection: 26 sp, with its light (12 dp, 14 dp from the text) */
 #status {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 39px;
+  font-size: 52px;
   font-weight: 650;
+  line-height: 1.3;
 }
 
-/* the connection light */
 #dot {
-  width: 18px;
-  height: 18px;
+  flex: none;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  margin: 0 21px;
+  /* (not margin-inline-end: webOS 5's Chromium 68 doesn't have it) */
+  margin: 0 28px 0 0;
   background: var(--orange);
-  box-shadow: 0 0 12px currentColor;
+}
+
+[dir="rtl"] #dot {
+  margin: 0 0 0 28px;
 }
 
 #buttons {
   display: flex;
   justify-content: center;
-  margin-top: 45px;
-  padding: 12px 18px;
+  align-items: center;
+  margin-top: 60px;
+  padding: 16px 24px;
 }
 
-/* a pill button: dark with a pink edge, and the sunset gradient when the remote is on it */
+/* a pill button: dark with a pink edge, and the sunset gradient when the remote is on it (17 sp, 60 dp high) */
 button {
   font-family: "Changa", sans-serif;
-  font-size: 26px;
+  font-size: 34px;
   font-weight: 650;
   color: var(--text);
   background: var(--panel);
-  border: 3px solid rgba(255, 90, 165, 0.4);
+  border: 4px solid rgba(255, 90, 165, 0.4);
   border-radius: 999px;
-  min-height: 90px;
-  padding: 0 48px;
-  margin: 0 15px;
+  min-height: 120px;
+  padding: 0 64px;
+  margin: 0 20px;
   outline: none;
   transition: transform 120ms;
 }
@@ -171,7 +200,101 @@ button {
 button.focus,
 button:focus {
   color: #fff;
-  background: linear-gradient(to right, var(--pink), var(--orange));
+  background: linear-gradient(to right, var(--pink), var(--orange)) border-box;
   border-color: transparent;
   transform: scale(1.06);
+}
+
+/* the language button: compact (14 sp, 44 dp high), in the top corner (20 + 8 dp down, 28 + 12 dp in) */
+#language {
+  position: absolute;
+  top: 56px;
+  right: 80px;
+  font-size: 28px;
+  min-height: 88px;
+  padding: 0 40px;
+  margin: 0;
+}
+
+[dir="rtl"] #language {
+  right: auto;
+  left: 80px;
+}
+
+/* the list: a dark card over the dimmed screen, the item the remote is on in the sunset gradient */
+#picker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  background: rgba(8, 5, 12, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#pickerCard {
+  width: 760px;
+  max-height: 900px;
+  display: flex;
+  flex-direction: column;
+  background: #17111f;
+  border: 2px solid #2f2440;
+  border-radius: 36px;
+  box-shadow: 0 0 60px rgba(255, 90, 165, 0.25);
+  padding: 36px 0 28px;
+}
+
+#pickerTitle {
+  font-size: 40px;
+  font-weight: 650;
+  padding: 0 48px 24px;
+}
+
+#pickerList {
+  overflow: hidden;
+  padding: 8px 24px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  line-height: 1.2;
+  min-height: 88px;
+  padding: 0 28px;
+  border-radius: 999px;
+  color: var(--text);
+}
+
+.item.focus {
+  color: #fff;
+  background: linear-gradient(to right, var(--pink), var(--orange));
+}
+
+/* the radio: a ring, filled neon when it's the one in use */
+.item::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 4px solid var(--muted);
+  box-sizing: border-box;
+  margin: 0 28px 0 0;
+}
+
+[dir="rtl"] .item::before {
+  margin: 0 0 0 28px;
+}
+
+.item.checked::before {
+  border-color: var(--neon);
+  background: radial-gradient(circle, var(--neon) 45%, transparent 50%);
+}
+
+.item.focus.checked::before {
+  border-color: #fff;
+  background: radial-gradient(circle, #fff 45%, transparent 50%);
 }

@@ -36,11 +36,14 @@ under it.
 
 Opened again from the launcher, the app shows the connection and two buttons:
 
-- **Show on:** all inputs, or one HDMI input only (the console's): the translations then hide on
-  other inputs and apps. Offered only on TVs that tell apps which input is on screen; elsewhere the
-  translations show everywhere.
+- **Show on:** a list of all inputs, or one HDMI input only (the console's): the translations then
+  hide on other inputs and apps. Offered only on TVs that tell apps which input is on screen;
+  elsewhere the translations show everywhere.
 - **Disconnect:** the TV forgets the PC and shows a new code. Removing the TV in VI Translator on
   the PC does the same.
+
+On both screens, the 🌐 button in the top corner picks the app's language: the TV's own, or any of
+the 33 languages of VI Translator on the PC.
 
 The app finds the PC again if the router gives it a new address.
 

@@ -27,6 +27,9 @@
   /** how long it keeps waiting to be connected after its screen was hidden */
   var LINGER_MS = 10 * 60000;
 
+  /** the language button's globe, as on Android TV */
+  var GLOBE = "🌐";
+
   var sys = window.webOSSystem || window.PalmSystem || null;
   var $ = function (id) {
     return document.getElementById(id);
@@ -139,11 +142,17 @@
     }, 2500);
   }
 
+  /** the TV's own language ("en-US"), used when none was picked in the app */
+  var tvLocale = navigator.language || "en";
+
+  /** The app's language: the one picked in the app, or the TV's own. */
   function readLocale() {
-    setLocale(navigator.language);
+    setLocale(load("language") || tvLocale);
     luna("luna://com.webos.settingsservice/getSystemSettings", { keys: ["localeInfo"] }, function (r) {
       var ui = r && r.settings && r.settings.localeInfo && r.settings.localeInfo.locales && r.settings.localeInfo.locales.UI;
-      if (ui) setLocale(ui);
+      if (!ui) return;
+      tvLocale = ui;
+      if (!load("language")) setLocale(ui);
     });
   }
 
@@ -201,7 +210,6 @@
 
   var panelShown = false;
   var lingering = null;
-  var focus = 0;
 
   function showPanel() {
     clearTimeout(lingering);
@@ -233,11 +241,78 @@
     return c && c.length === 6 ? c.slice(0, 3) + " " + c.slice(3) : "";
   }
 
-  function buttons() {
+  // ---- the app's language -------------------------------------------------------------------
+
+  /** The desktop app's 33 interface languages, in its order, by their own names (as on Android TV). */
+  var LANGS = [
+    ["en", "English"],
+    ["ar", "العربية"],
+    ["hi", "हिन्दी"],
+    ["bn", "বাংলা"],
+    ["ur", "اردو"],
+    ["id", "Bahasa Indonesia"],
+    ["tr", "Türkçe"],
+    ["vi", "Tiếng Việt"],
+    ["fa", "فارسی"],
+    ["th", "ไทย"],
+    ["ta", "தமிழ்"],
+    ["te", "తెలుగు"],
+    ["mr", "मराठी"],
+    ["uk", "Українська"],
+    ["nl", "Nederlands"],
+    ["fil", "Filipino"],
+    ["ms", "Bahasa Melayu"],
+    ["sw", "Kiswahili"],
+    ["ro", "Română"],
+    ["el", "Ελληνικά"],
+    ["cs", "Čeština"],
+    ["fr", "Français"],
+    ["it", "Italiano"],
+    ["de", "Deutsch"],
+    ["ru", "Русский"],
+    ["ja", "日本語"],
+    ["pl", "Polski"],
+    ["ko", "한국어"],
+    ["zh-Hans-CN", "简体中文"],
+    ["zh-Hant-TW", "繁體中文"],
+    ["es-MX", "Español (México)"],
+    ["es-ES", "Español (España)"],
+    ["pt-BR", "Português (Brasil)"],
+  ];
+
+  /** The chosen language's name, or "" when the TV's own is used. */
+  function chosenName() {
+    var tag = load("language");
+    for (var i = 0; i < LANGS.length; i++) if (LANGS[i][0] === tag) return LANGS[i][1];
+    return "";
+  }
+
+  /** The language list: the TV's own first, then each language by its own name. */
+  function pickLanguage() {
+    var tag = load("language");
+    var names = [t("language_tv")];
+    var checked = 0;
+    for (var i = 0; i < LANGS.length; i++) {
+      names.push(LANGS[i][1]);
+      if (LANGS[i][0] === tag) checked = i + 1;
+    }
+    openPicker(t("language"), names, checked, function (which) {
+      save("language", which === 0 ? "" : LANGS[which - 1][0]);
+      setLocale(load("language") || tvLocale);
+    });
+  }
+
+  // ---- the screen's buttons and the remote ---------------------------------------------------
+
+  /** the button the remote is on: "language", "showOn" or "disconnect" */
+  var focused = "";
+
+  /** The row of buttons under the connection (none while waiting). */
+  function row() {
     var b = [];
     if (connected()) {
-      if (inputs.length) b.push($("showOn"));
-      b.push($("disconnect"));
+      if (inputs.length) b.push("showOn");
+      b.push("disconnect");
     }
     return b;
   }
@@ -247,6 +322,13 @@
     $("waiting").classList.toggle("hidden", on);
     $("connected").classList.toggle("hidden", !on);
     $("hint").textContent = t("hide_hint");
+    $("language").textContent = GLOBE + "  " + (chosenName() || t("language_tv"));
+    var r = row();
+    // (where Android TV puts the focus: the first button under the connection, or the language)
+    if (focused !== "language" && r.indexOf(focused) < 0) focused = r.length ? r[0] : "language";
+    ["language", "showOn", "disconnect"].forEach(function (id) {
+      $(id).classList.toggle("focus", id === focused);
+    });
     if (!on) {
       $("enterCode").textContent = t("enter_code");
       $("whereOnPc").textContent = t("where_on_pc");
@@ -265,20 +347,33 @@
       text = t("overlays_off", pc);
     }
     $("dot").style.background = color;
-    $("dot").style.color = color;
     $("statusText").textContent = text;
     $("showOn").classList.toggle("hidden", !inputs.length);
     $("showOn").textContent = t("show_on", showOnLabel());
     $("disconnect").textContent = t("disconnect");
-    var b = buttons();
-    if (focus >= b.length) focus = 0;
-    for (var i = 0; i < b.length; i++) b[i].classList.toggle("focus", i === focus);
   }
 
-  function press() {
-    var b = buttons()[focus];
-    if (b === $("showOn")) nextShowOn();
-    else if (b === $("disconnect")) disconnect();
+  function press(id) {
+    if (id === "language") pickLanguage();
+    else if (id === "showOn") pickShowOn();
+    else if (id === "disconnect") disconnect();
+  }
+
+  /** Arrows: up to the language in the corner, down to the buttons, left and right along them. */
+  function move(k) {
+    var r = row();
+    if (k === 38) {
+      focused = "language";
+    } else if (k === 40) {
+      if (focused === "language" && r.length) focused = r[0];
+    } else if (focused !== "language" && r.length) {
+      // (the buttons run right to left in Arabic, Persian and Urdu)
+      var forward = (k === 39) !== rtl;
+      var i = r.indexOf(focused);
+      i = Math.min(r.length - 1, Math.max(0, i + (forward ? 1 : -1)));
+      focused = r[i];
+    }
+    render();
   }
 
   document.addEventListener(
@@ -286,17 +381,18 @@
     function (e) {
       if (!panelShown) return;
       var k = e.keyCode;
-      var n = buttons().length;
-      if (k === 461 || k === 27 || k === 8) {
-        // Back (the remote), or Esc / Backspace on a keyboard
+      var back = k === 461 || k === 27 || k === 8; // Back (the remote), or Esc / Backspace on a keyboard
+      if (picker) {
+        if (back) closePicker();
+        else if (k === 38 || k === 40) movePicker(k === 40 ? 1 : -1);
+        else if (k === 13) choose(picker.at);
+        else return;
+      } else if (back) {
         hidePanel();
-      } else if ((k === 37 || k === 39) && n) {
-        // (the buttons run right to left in Arabic, Persian and Urdu)
-        var forward = (k === 39) !== rtl;
-        focus = (focus + (forward ? 1 : n - 1)) % n;
-        render();
-      } else if (k === 13 && n) {
-        press();
+      } else if (k >= 37 && k <= 40) {
+        move(k);
+      } else if (k === 13) {
+        press(focused);
       } else {
         return;
       }
@@ -306,19 +402,69 @@
   );
 
   // (a pointer: the Magic Remote)
-  $("showOn").addEventListener("click", function () {
-    focus = 0;
-    nextShowOn();
+  ["language", "showOn", "disconnect"].forEach(function (id) {
+    $(id).addEventListener("click", function () {
+      focused = id;
+      render();
+      press(id);
+    });
+    $(id).addEventListener("mouseover", function () {
+      if (picker) return;
+      focused = id;
+      render();
+    });
   });
-  $("disconnect").addEventListener("click", disconnect);
-  $("showOn").addEventListener("mouseover", function () {
-    focus = 0;
+
+  // ---- a list to pick from --------------------------------------------------------------------
+
+  /** the open list: {names, at (the item the remote is on), done(index)}, or null */
+  var picker = null;
+
+  function openPicker(title, names, checked, done) {
+    picker = { names: names, at: checked, done: done };
+    $("pickerTitle").textContent = title;
+    var list = $("pickerList");
+    list.innerHTML = "";
+    names.forEach(function (name, i) {
+      var d = document.createElement("div");
+      d.className = "item" + (i === checked ? " checked" : "");
+      d.textContent = name;
+      d.addEventListener("mouseover", function () {
+        picker.at = i;
+        paintPicker();
+      });
+      d.addEventListener("click", function () {
+        choose(i);
+      });
+      list.appendChild(d);
+    });
+    $("picker").classList.remove("hidden");
+    paintPicker();
+  }
+
+  function paintPicker() {
+    var items = $("pickerList").children;
+    for (var i = 0; i < items.length; i++) items[i].classList.toggle("focus", i === picker.at);
+    var on = items[picker.at];
+    if (on) on.scrollIntoView({ block: "nearest" });
+  }
+
+  function movePicker(by) {
+    picker.at = Math.min(picker.names.length - 1, Math.max(0, picker.at + by));
+    paintPicker();
+  }
+
+  function choose(i) {
+    var done = picker.done;
+    closePicker();
+    done(i);
+  }
+
+  function closePicker() {
+    picker = null;
+    $("picker").classList.add("hidden");
     render();
-  });
-  $("disconnect").addEventListener("mouseover", function () {
-    focus = buttons().length - 1;
-    render();
-  });
+  }
 
   // ---- waiting to be connected ------------------------------------------------------------
 
@@ -449,7 +595,7 @@
     save("token", "");
     save("pc_name", "");
     stopOverlay();
-    focus = 0;
+    focused = "";
     startPairing();
     if (!panelShown) linger();
     render();
@@ -501,15 +647,22 @@
     return t("all_inputs");
   }
 
-  /** Show on: every input, then each HDMI input in turn. */
-  function nextShowOn() {
+  /** Show on: a list like the language one, every input first, then each HDMI input by its name. */
+  function pickShowOn() {
     var on = load("show_on");
-    var i = -1;
-    for (var j = 0; j < inputs.length; j++) if (inputs[j].appId === on) i = j;
-    var next = inputs[i + 1];
-    save("show_on", next ? next.appId : "");
-    applyShowOn();
-    render();
+    var names = [t("all_inputs")];
+    var checked = 0;
+    for (var i = 0; i < inputs.length; i++) {
+      names.push(inputs[i].label);
+      if (inputs[i].appId === on) checked = i + 1;
+    }
+    // (the title is the button's "Show on: …" without its value: every language has "label: value")
+    var title = t("show_on", "").replace(/[\s:：]+$/, "");
+    openPicker(title, names, checked, function (which) {
+      save("show_on", which === 0 ? "" : inputs[which - 1].appId);
+      applyShowOn();
+      render();
+    });
   }
 
   /** The translations only while the chosen input is on screen. */
