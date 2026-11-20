@@ -534,8 +534,52 @@
   function show(url) {
     if (url === shownUrl) return;
     shownUrl = url;
+    lastAlive = 0;
+    everAlive = false;
     $("overlay").src = url || "about:blank";
   }
+
+  // ---- the page staying alive ---------------------------------------------------------------
+  // The TV page tells it is alive after each answer from the PC (a message from its frame; PC apps from
+  // 1.2.2 on). A page that went quiet while the PC answers this TV (see check) is loaded again: a request
+  // the network dropped without a word stops it, and so can the TV pausing the app for a while. Never
+  // while the PC is away: the page then keeps trying by itself, and a page loaded then would be an error
+  // page that never tries again. (Only once the page has told it once: an older PC app's page never
+  // does, and is left alone.)
+
+  /** how long the page may stay quiet, the PC answering, before it's loaded again */
+  var QUIET_MS = 20000;
+  var lastAlive = 0;
+  var everAlive = false;
+
+  window.addEventListener("message", function (e) {
+    if (!shownUrl || !e.data || e.data.vit !== "alive") return;
+    // (from the PC's page only)
+    if (shownUrl.indexOf(e.origin + "/") !== 0) return;
+    lastAlive = Date.now();
+    everAlive = true;
+  });
+
+  function reloadOverlay() {
+    var url = shownUrl;
+    if (!url) return;
+    lastAlive = Date.now(); // (its time to load and answer)
+    $("overlay").src = "about:blank";
+    setTimeout(function () {
+      if (shownUrl === url) $("overlay").src = url;
+    }, 100);
+  }
+
+  /** The PC answered this TV: the page loaded again if it went quiet. */
+  function reviveIfQuiet() {
+    if (shownUrl && everAlive && Date.now() - lastAlive > QUIET_MS) reloadOverlay();
+  }
+
+  // shown again after the TV had it paused: the PC asked at once (the page is loaded again if it went quiet)
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden || !connected()) return;
+    check();
+  });
 
   /**
    * How the PC is: removed this TV (disconnect), gone a while (look for it at a new address), or
@@ -559,6 +603,7 @@
       if (s === "ok" || s === "overlays_off") {
         unreachable = 0;
         show(pageUrl(pc, token));
+        reviveIfQuiet();
       } else {
         unreachable++;
         if (unreachable >= 3 && !finding) findPc(pc, token);
