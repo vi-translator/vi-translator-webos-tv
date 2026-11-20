@@ -32,14 +32,19 @@ under it.
    input of this TV: it keeps waiting for 10 minutes, with the same code.
 3. **On the PC:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
    press *Connect*. Sharing on the home network is turned on if it was off.
-4. **Press Back** to hide the app's screen, and switch to the console's input. The translations
-   show over it.
+4. **Play on…** → the console's HDMI input. The TV switches to it and the translations show over
+   it, the app's screen hidden.
 
-Opened again from the launcher, the app shows the connection and two buttons:
+Switching inputs with the remote's **Source** button closes the app (webOS keeps one app in front),
+so use *Play on…* instead. If Source was used anyway, the app opens again by itself over the HDMI
+input a moment later, as long as the TV is connected.
 
+Opened again from the launcher, the app shows the connection and three buttons:
+
+- **Play on…:** HDMI 1 to 4 (or the TV's own list of inputs): switches to that input with the
+  translations over it.
 - **Show on:** a list of all inputs, or one HDMI input only (the console's): the translations then
-  hide on other inputs and apps. Offered only on TVs that tell apps which input is on screen;
-  elsewhere the translations show everywhere.
+  hide on other inputs and apps.
 - **Disconnect:** the TV forgets the PC and shows a new code. Removing the TV in VI Translator on
   the PC does the same.
 

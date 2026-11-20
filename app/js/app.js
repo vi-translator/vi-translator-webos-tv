@@ -304,13 +304,14 @@
 
   // ---- the screen's buttons and the remote ---------------------------------------------------
 
-  /** the button the remote is on: "language", "showOn" or "disconnect" */
+  /** the button the remote is on: "language", "playOn", "showOn" or "disconnect" */
   var focused = "";
 
   /** The row of buttons under the connection (none while waiting). */
   function row() {
     var b = [];
     if (connected()) {
+      b.push("playOn");
       if (inputs.length) b.push("showOn");
       b.push("disconnect");
     }
@@ -326,7 +327,7 @@
     var r = row();
     // (where Android TV puts the focus: the first button under the connection, or the language)
     if (focused !== "language" && r.indexOf(focused) < 0) focused = r.length ? r[0] : "language";
-    ["language", "showOn", "disconnect"].forEach(function (id) {
+    ["language", "playOn", "showOn", "disconnect"].forEach(function (id) {
       $(id).classList.toggle("focus", id === focused);
     });
     if (!on) {
@@ -348,6 +349,7 @@
     }
     $("dot").style.background = color;
     $("statusText").textContent = text;
+    $("playOn").textContent = t("play_on");
     $("showOn").classList.toggle("hidden", !inputs.length);
     $("showOn").textContent = t("show_on", showOnLabel());
     $("disconnect").textContent = t("disconnect");
@@ -355,6 +357,7 @@
 
   function press(id) {
     if (id === "language") pickLanguage();
+    else if (id === "playOn") pickPlayOn();
     else if (id === "showOn") pickShowOn();
     else if (id === "disconnect") disconnect();
   }
@@ -402,7 +405,7 @@
   );
 
   // (a pointer: the Magic Remote)
-  ["language", "showOn", "disconnect"].forEach(function (id) {
+  ["language", "playOn", "showOn", "disconnect"].forEach(function (id) {
     $(id).addEventListener("click", function () {
       focused = id;
       render();
@@ -521,6 +524,8 @@
     clearTimeout(checking);
     unreachable = 0;
     check();
+    // (the service opens this app again over the game when the TV's input changes)
+    luna(SERVICE + "watch", { on: true }, function () {});
   }
 
   function stopOverlay() {
@@ -636,6 +641,7 @@
 
   /** Not connected any more (Disconnect, or removed in the PC app): back to showing a code. */
   function forgetHere() {
+    luna(SERVICE + "watch", { on: false }, function () {});
     save("pc", "");
     save("token", "");
     save("pc_name", "");
@@ -710,6 +716,34 @@
     });
   }
 
+  // ---- Play on: switch to the game's input, with the translations over it --------------------------
+  // Switching the input with the remote's Source button closes this app (webOS keeps one app in front).
+  // Here the service switches it, then opens this app again over the input, its screen hidden.
+
+  /** HDMI inputs to play on: the TV's own list, or the usual four. */
+  function playInputs() {
+    if (inputs.length) return inputs;
+    var list = [];
+    for (var n = 1; n <= 4; n++) list.push({ appId: "com.webos.app.hdmi" + n, label: "HDMI " + n });
+    return list;
+  }
+
+  function pickPlayOn() {
+    var list = playInputs();
+    var last = load("play_input");
+    var names = [];
+    var checked = 0;
+    for (var i = 0; i < list.length; i++) {
+      names.push(list[i].label);
+      if (list[i].appId === last) checked = i;
+    }
+    openPicker(t("play_on").replace(/[\s…:.]+$/, ""), names, checked, function (which) {
+      var input = list[which].appId;
+      save("play_input", input);
+      luna(SERVICE + "play", { input: input }, function () {});
+    });
+  }
+
   /** The translations only while the chosen input is on screen. */
   function applyShowOn() {
     var on = load("show_on");
@@ -721,9 +755,25 @@
 
   // ---- start ------------------------------------------------------------------------------
 
-  // the app opened again (from the launcher) while it runs: its screen shows again
+  /** The parameters this app was (re)opened with: {overlay: true} from the service, over the game. */
+  function launchParams() {
+    try {
+      var p = sys && sys.launchParams;
+      return (typeof p === "string" ? JSON.parse(p || "{}") : p) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  // the app opened again while it runs: from the launcher, its screen shows again; from the service
+  // (over the game), it stays hidden
   document.addEventListener("webOSRelaunch", function () {
-    showPanel();
+    if (launchParams().overlay && connected()) {
+      hidePanel();
+      check();
+    } else {
+      showPanel();
+    }
   });
 
   readLocale();
@@ -731,8 +781,10 @@
     startPairing();
     render();
   });
-  showPanel();
+  if (launchParams().overlay && connected()) hidePanel();
+  else showPanel();
   if (connected()) startOverlay();
   watchInputs();
+  listInputs();
   setInterval(applyShowOn, INPUT_MS);
 })();

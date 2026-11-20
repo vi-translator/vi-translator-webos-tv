@@ -12,7 +12,8 @@ var STRINGS = {
   "disconnect": "Disconnect",
   "language": "App language",
   "language_tv": "TV language",
-  "hide_hint": "Press Back to hide this screen"
+  "hide_hint": "Press Back to hide this screen",
+  "play_on": "Play on…"
  },
  "ar": {
   "enter_code": "أدخل هذا الرمز في VI Translator على جهاز الكمبيوتر",
@@ -26,7 +27,8 @@ var STRINGS = {
   "disconnect": "قطع الاتصال",
   "language": "لغة التطبيق",
   "language_tv": "لغة التلفاز",
-  "hide_hint": "اضغط «رجوع» لإخفاء هذه الشاشة"
+  "hide_hint": "اضغط «رجوع» لإخفاء هذه الشاشة",
+  "play_on": "العب على…"
  },
  "es-419": {
   "enter_code": "Escribe este código en VI Translator en tu PC",
@@ -40,7 +42,8 @@ var STRINGS = {
   "disconnect": "Desconectar",
   "language": "Idioma de la app",
   "language_tv": "Idioma de la TV",
-  "hide_hint": "Presiona Atrás para ocultar esta pantalla"
+  "hide_hint": "Presiona Atrás para ocultar esta pantalla",
+  "play_on": "Jugar en…"
  },
  "zh-Hans": {
   "enter_code": "在电脑上的 VI Translator 中输入此代码",
@@ -54,7 +57,8 @@ var STRINGS = {
   "disconnect": "断开连接",
   "language": "界面语言",
   "language_tv": "电视语言",
-  "hide_hint": "按返回键隐藏此画面"
+  "hide_hint": "按返回键隐藏此画面",
+  "play_on": "在此输入上游玩…"
  },
  "zh-Hant": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -68,7 +72,8 @@ var STRINGS = {
   "disconnect": "中斷連線",
   "language": "介面語言",
   "language_tv": "電視語言",
-  "hide_hint": "按返回鍵隱藏此畫面"
+  "hide_hint": "按返回鍵隱藏此畫面",
+  "play_on": "在此輸入上遊玩…"
  },
  "bn": {
   "enter_code": "আপনার পিসিতে VI Translator-এ এই কোডটি লিখুন",
@@ -82,7 +87,8 @@ var STRINGS = {
   "disconnect": "সংযোগ বিচ্ছিন্ন করুন",
   "language": "অ্যাপের ভাষা",
   "language_tv": "টিভির ভাষা",
-  "hide_hint": "এই স্ক্রিন লুকাতে Back চাপুন"
+  "hide_hint": "এই স্ক্রিন লুকাতে Back চাপুন",
+  "play_on": "এতে খেলুন…"
  },
  "cs": {
   "enter_code": "Zadejte tento kód ve VI Translator na počítači",
@@ -96,7 +102,8 @@ var STRINGS = {
   "disconnect": "Odpojit",
   "language": "Jazyk aplikace",
   "language_tv": "Jazyk televize",
-  "hide_hint": "Stisknutím Zpět tuto obrazovku skryjete"
+  "hide_hint": "Stisknutím Zpět tuto obrazovku skryjete",
+  "play_on": "Hrát na…"
  },
  "de": {
   "enter_code": "Gib diesen Code in VI Translator auf deinem PC ein",
@@ -110,7 +117,8 @@ var STRINGS = {
   "disconnect": "Trennen",
   "language": "App-Sprache",
   "language_tv": "Sprache des Fernsehers",
-  "hide_hint": "Drücke Zurück, um diesen Bildschirm auszublenden"
+  "hide_hint": "Drücke Zurück, um diesen Bildschirm auszublenden",
+  "play_on": "Spielen auf…"
  },
  "el": {
   "enter_code": "Πληκτρολογήστε αυτόν τον κωδικό στο VI Translator στον υπολογιστή σας",
@@ -124,7 +132,8 @@ var STRINGS = {
   "disconnect": "Αποσύνδεση",
   "language": "Γλώσσα εφαρμογής",
   "language_tv": "Γλώσσα τηλεόρασης",
-  "hide_hint": "Πατήστε Πίσω για απόκρυψη αυτής της οθόνης"
+  "hide_hint": "Πατήστε Πίσω για απόκρυψη αυτής της οθόνης",
+  "play_on": "Παιχνίδι σε…"
  },
  "es": {
   "enter_code": "Introduce este código en VI Translator en tu PC",
@@ -138,7 +147,8 @@ var STRINGS = {
   "disconnect": "Desconectar",
   "language": "Idioma de la aplicación",
   "language_tv": "Idioma de la tele",
-  "hide_hint": "Pulsa Atrás para ocultar esta pantalla"
+  "hide_hint": "Pulsa Atrás para ocultar esta pantalla",
+  "play_on": "Jugar en…"
  },
  "es-MX": {
   "enter_code": "Escribe este código en VI Translator en tu PC",
@@ -152,7 +162,8 @@ var STRINGS = {
   "disconnect": "Desconectar",
   "language": "Idioma de la app",
   "language_tv": "Idioma de la TV",
-  "hide_hint": "Presiona Atrás para ocultar esta pantalla"
+  "hide_hint": "Presiona Atrás para ocultar esta pantalla",
+  "play_on": "Jugar en…"
  },
  "fa": {
   "enter_code": "این کد را در VI Translator روی رایانه وارد کنید",
@@ -166,7 +177,8 @@ var STRINGS = {
   "disconnect": "قطع اتصال",
   "language": "زبان برنامه",
   "language_tv": "زبان تلویزیون",
-  "hide_hint": "برای پنهان کردن این صفحه، «بازگشت» را بزنید"
+  "hide_hint": "برای پنهان کردن این صفحه، «بازگشت» را بزنید",
+  "play_on": "بازی روی…"
  },
  "fil": {
   "enter_code": "Ilagay ang code na ito sa VI Translator sa iyong PC",
@@ -180,7 +192,8 @@ var STRINGS = {
   "disconnect": "Idiskonekta",
   "language": "Wika ng app",
   "language_tv": "Wika ng TV",
-  "hide_hint": "Pindutin ang Back para itago ang screen na ito"
+  "hide_hint": "Pindutin ang Back para itago ang screen na ito",
+  "play_on": "Maglaro sa…"
  },
  "fr": {
   "enter_code": "Saisissez ce code dans VI Translator sur votre PC",
@@ -194,7 +207,8 @@ var STRINGS = {
   "disconnect": "Déconnecter",
   "language": "Langue de l'application",
   "language_tv": "Langue de la TV",
-  "hide_hint": "Appuyez sur Retour pour masquer cet écran"
+  "hide_hint": "Appuyez sur Retour pour masquer cet écran",
+  "play_on": "Jouer sur…"
  },
  "hi": {
   "enter_code": "अपने पीसी पर VI Translator में यह कोड डालें",
@@ -208,7 +222,8 @@ var STRINGS = {
   "disconnect": "डिस्कनेक्ट करें",
   "language": "ऐप की भाषा",
   "language_tv": "टीवी की भाषा",
-  "hide_hint": "इस स्क्रीन को छिपाने के लिए Back दबाएँ"
+  "hide_hint": "इस स्क्रीन को छिपाने के लिए Back दबाएँ",
+  "play_on": "इस पर खेलें…"
  },
  "id": {
   "enter_code": "Masukkan kode ini di VI Translator di PC Anda",
@@ -222,7 +237,8 @@ var STRINGS = {
   "disconnect": "Putuskan",
   "language": "Bahasa aplikasi",
   "language_tv": "Bahasa TV",
-  "hide_hint": "Tekan Kembali untuk menyembunyikan layar ini"
+  "hide_hint": "Tekan Kembali untuk menyembunyikan layar ini",
+  "play_on": "Main di…"
  },
  "it": {
   "enter_code": "Inserisci questo codice in VI Translator sul PC",
@@ -236,7 +252,8 @@ var STRINGS = {
   "disconnect": "Scollega",
   "language": "Lingua dell'app",
   "language_tv": "Lingua della TV",
-  "hide_hint": "Premi Indietro per nascondere questa schermata"
+  "hide_hint": "Premi Indietro per nascondere questa schermata",
+  "play_on": "Gioca su…"
  },
  "ja": {
   "enter_code": "PC の VI Translator にこのコードを入力してください",
@@ -250,7 +267,8 @@ var STRINGS = {
   "disconnect": "接続を解除",
   "language": "アプリの言語",
   "language_tv": "テレビの言語",
-  "hide_hint": "戻るボタンでこの画面を隠します"
+  "hide_hint": "戻るボタンでこの画面を隠します",
+  "play_on": "プレイする入力…"
  },
  "ko": {
   "enter_code": "PC의 VI Translator에 이 코드를 입력하세요",
@@ -264,7 +282,8 @@ var STRINGS = {
   "disconnect": "연결 해제",
   "language": "앱 언어",
   "language_tv": "TV 언어",
-  "hide_hint": "뒤로 버튼을 눌러 이 화면을 숨기세요"
+  "hide_hint": "뒤로 버튼을 눌러 이 화면을 숨기세요",
+  "play_on": "플레이할 입력…"
  },
  "mr": {
   "enter_code": "तुमच्या पीसीवरील VI Translator मध्ये हा कोड टाका",
@@ -278,7 +297,8 @@ var STRINGS = {
   "disconnect": "डिस्कनेक्ट करा",
   "language": "ॲपची भाषा",
   "language_tv": "टीव्हीची भाषा",
-  "hide_hint": "ही स्क्रीन लपवण्यासाठी Back दाबा"
+  "hide_hint": "ही स्क्रीन लपवण्यासाठी Back दाबा",
+  "play_on": "यावर खेळा…"
  },
  "ms": {
   "enter_code": "Masukkan kod ini dalam VI Translator pada PC anda",
@@ -292,7 +312,8 @@ var STRINGS = {
   "disconnect": "Putuskan sambungan",
   "language": "Bahasa aplikasi",
   "language_tv": "Bahasa TV",
-  "hide_hint": "Tekan Kembali untuk menyembunyikan skrin ini"
+  "hide_hint": "Tekan Kembali untuk menyembunyikan skrin ini",
+  "play_on": "Main di…"
  },
  "nl": {
   "enter_code": "Voer deze code in bij VI Translator op je pc",
@@ -306,7 +327,8 @@ var STRINGS = {
   "disconnect": "Ontkoppelen",
   "language": "App-taal",
   "language_tv": "Taal van de tv",
-  "hide_hint": "Druk op Terug om dit scherm te verbergen"
+  "hide_hint": "Druk op Terug om dit scherm te verbergen",
+  "play_on": "Spelen op…"
  },
  "pl": {
   "enter_code": "Wpisz ten kod w VI Translator na komputerze",
@@ -320,7 +342,8 @@ var STRINGS = {
   "disconnect": "Rozłącz",
   "language": "Język aplikacji",
   "language_tv": "Język telewizora",
-  "hide_hint": "Naciśnij Wstecz, aby ukryć ten ekran"
+  "hide_hint": "Naciśnij Wstecz, aby ukryć ten ekran",
+  "play_on": "Graj na…"
  },
  "pt": {
   "enter_code": "Digite este código no VI Translator no seu PC",
@@ -334,7 +357,8 @@ var STRINGS = {
   "disconnect": "Desconectar",
   "language": "Idioma do app",
   "language_tv": "Idioma da TV",
-  "hide_hint": "Pressione Voltar para ocultar esta tela"
+  "hide_hint": "Pressione Voltar para ocultar esta tela",
+  "play_on": "Jogar em…"
  },
  "pt-BR": {
   "enter_code": "Digite este código no VI Translator no seu PC",
@@ -348,7 +372,8 @@ var STRINGS = {
   "disconnect": "Desconectar",
   "language": "Idioma do app",
   "language_tv": "Idioma da TV",
-  "hide_hint": "Pressione Voltar para ocultar esta tela"
+  "hide_hint": "Pressione Voltar para ocultar esta tela",
+  "play_on": "Jogar em…"
  },
  "ro": {
   "enter_code": "Introdu acest cod în VI Translator pe PC",
@@ -362,7 +387,8 @@ var STRINGS = {
   "disconnect": "Deconectează",
   "language": "Limba aplicației",
   "language_tv": "Limba televizorului",
-  "hide_hint": "Apasă Înapoi pentru a ascunde acest ecran"
+  "hide_hint": "Apasă Înapoi pentru a ascunde acest ecran",
+  "play_on": "Joacă pe…"
  },
  "ru": {
   "enter_code": "Введите этот код в VI Translator на ПК",
@@ -376,7 +402,8 @@ var STRINGS = {
   "disconnect": "Отключить",
   "language": "Язык приложения",
   "language_tv": "Язык телевизора",
-  "hide_hint": "Нажмите «Назад», чтобы скрыть этот экран"
+  "hide_hint": "Нажмите «Назад», чтобы скрыть этот экран",
+  "play_on": "Играть на…"
  },
  "sw": {
   "enter_code": "Weka msimbo huu katika VI Translator kwenye kompyuta yako",
@@ -390,7 +417,8 @@ var STRINGS = {
   "disconnect": "Tenganisha",
   "language": "Lugha ya programu",
   "language_tv": "Lugha ya TV",
-  "hide_hint": "Bonyeza Nyuma ili kuficha skrini hii"
+  "hide_hint": "Bonyeza Nyuma ili kuficha skrini hii",
+  "play_on": "Cheza kwenye…"
  },
  "ta": {
   "enter_code": "உங்கள் கணினியில் VI Translator-இல் இந்தக் குறியீட்டை உள்ளிடவும்",
@@ -404,7 +432,8 @@ var STRINGS = {
   "disconnect": "துண்டி",
   "language": "செயலியின் மொழி",
   "language_tv": "டிவியின் மொழி",
-  "hide_hint": "இந்தத் திரையை மறைக்க Back-ஐ அழுத்தவும்"
+  "hide_hint": "இந்தத் திரையை மறைக்க Back-ஐ அழுத்தவும்",
+  "play_on": "இதில் விளையாடு…"
  },
  "te": {
   "enter_code": "మీ PCలో VI Translatorలో ఈ కోడ్‌ను నమోదు చేయండి",
@@ -418,7 +447,8 @@ var STRINGS = {
   "disconnect": "డిస్‌కనెక్ట్ చేయి",
   "language": "యాప్ భాష",
   "language_tv": "టీవీ భాష",
-  "hide_hint": "ఈ స్క్రీన్‌ను దాచడానికి Back నొక్కండి"
+  "hide_hint": "ఈ స్క్రీన్‌ను దాచడానికి Back నొక్కండి",
+  "play_on": "దీనిలో ఆడండి…"
  },
  "th": {
   "enter_code": "ใส่รหัสนี้ใน VI Translator บนพีซีของคุณ",
@@ -432,7 +462,8 @@ var STRINGS = {
   "disconnect": "ยกเลิกการเชื่อมต่อ",
   "language": "ภาษาของแอป",
   "language_tv": "ภาษาของทีวี",
-  "hide_hint": "กดย้อนกลับเพื่อซ่อนหน้าจอนี้"
+  "hide_hint": "กดย้อนกลับเพื่อซ่อนหน้าจอนี้",
+  "play_on": "เล่นบน…"
  },
  "tl": {
   "enter_code": "Ilagay ang code na ito sa VI Translator sa iyong PC",
@@ -446,7 +477,8 @@ var STRINGS = {
   "disconnect": "Idiskonekta",
   "language": "Wika ng app",
   "language_tv": "Wika ng TV",
-  "hide_hint": "Pindutin ang Back para itago ang screen na ito"
+  "hide_hint": "Pindutin ang Back para itago ang screen na ito",
+  "play_on": "Maglaro sa…"
  },
  "tr": {
   "enter_code": "Bu kodu bilgisayarınızdaki VI Translator'a girin",
@@ -460,7 +492,8 @@ var STRINGS = {
   "disconnect": "Bağlantıyı kes",
   "language": "Uygulama dili",
   "language_tv": "Televizyonun dili",
-  "hide_hint": "Bu ekranı gizlemek için Geri'ye basın"
+  "hide_hint": "Bu ekranı gizlemek için Geri'ye basın",
+  "play_on": "Şurada oyna…"
  },
  "uk": {
   "enter_code": "Введіть цей код у VI Translator на ПК",
@@ -474,7 +507,8 @@ var STRINGS = {
   "disconnect": "Від'єднати",
   "language": "Мова застосунку",
   "language_tv": "Мова телевізора",
-  "hide_hint": "Натисніть «Назад», щоб приховати цей екран"
+  "hide_hint": "Натисніть «Назад», щоб приховати цей екран",
+  "play_on": "Грати на…"
  },
  "ur": {
   "enter_code": "اپنے پی سی پر VI Translator میں یہ کوڈ درج کریں",
@@ -488,7 +522,8 @@ var STRINGS = {
   "disconnect": "منقطع کریں",
   "language": "ایپ کی زبان",
   "language_tv": "ٹی وی کی زبان",
-  "hide_hint": "یہ اسکرین چھپانے کے لیے Back دبائیں"
+  "hide_hint": "یہ اسکرین چھپانے کے لیے Back دبائیں",
+  "play_on": "اس پر کھیلیں…"
  },
  "vi": {
   "enter_code": "Nhập mã này trong VI Translator trên PC",
@@ -502,7 +537,8 @@ var STRINGS = {
   "disconnect": "Ngắt kết nối",
   "language": "Ngôn ngữ ứng dụng",
   "language_tv": "Ngôn ngữ của TV",
-  "hide_hint": "Nhấn Quay lại để ẩn màn hình này"
+  "hide_hint": "Nhấn Quay lại để ẩn màn hình này",
+  "play_on": "Chơi trên…"
  },
  "zh-CN": {
   "enter_code": "在电脑上的 VI Translator 中输入此代码",
@@ -516,7 +552,8 @@ var STRINGS = {
   "disconnect": "断开连接",
   "language": "界面语言",
   "language_tv": "电视语言",
-  "hide_hint": "按返回键隐藏此画面"
+  "hide_hint": "按返回键隐藏此画面",
+  "play_on": "在此输入上游玩…"
  },
  "zh-HK": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -530,7 +567,8 @@ var STRINGS = {
   "disconnect": "中斷連線",
   "language": "介面語言",
   "language_tv": "電視語言",
-  "hide_hint": "按返回鍵隱藏此畫面"
+  "hide_hint": "按返回鍵隱藏此畫面",
+  "play_on": "在此輸入上遊玩…"
  },
  "zh-TW": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -544,6 +582,7 @@ var STRINGS = {
   "disconnect": "中斷連線",
   "language": "介面語言",
   "language_tv": "電視語言",
-  "hide_hint": "按返回鍵隱藏此畫面"
+  "hide_hint": "按返回鍵隱藏此畫面",
+  "play_on": "在此輸入上遊玩…"
  }
 };

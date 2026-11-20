@@ -67,11 +67,12 @@ function hold() {
   keepAlive = "pending";
   service.activityManager.create("keepAlive", function (activity) {
     keepAlive = activity;
-    if (!server) release(); // (stopped meanwhile)
+    if (!server && !watching) release(); // (stopped meanwhile)
   });
 }
 
 function release() {
+  if (watching) return; // (the watch keeps the service running)
   var a = keepAlive;
   keepAlive = null;
   if (a && a !== "pending") service.activityManager.complete(a, function () {});
@@ -278,6 +279,96 @@ service.register("ask", function (message) {
   if (!pc) return;
   ask(pc, message.payload.token, 6000, function (state) {
     message.respond({ returnValue: true, state: state });
+  });
+});
+
+// ---- the overlay over the game ----------------------------------------------------------------
+// Switching the TV's input (Source, or another app) closes this app: webOS keeps one app in front, and
+// an overlay app is closed when another one starts. So the service, which keeps running, does it:
+// - play: switches to an HDMI input, then opens this app again over it, its screen hidden;
+// - watch: while this TV is connected, an HDMI input coming in front (picked with Source) without this
+//   app running opens it again over it, its screen hidden.
+
+var APP = "app.vitranslator.tv";
+var watching = false;
+var foregroundSub = null;
+var lastOpened = 0;
+var HDMI = /^com\.webos\.app\.hdmi\d$/;
+
+function call(uri, params, done) {
+  service.call(uri, params || {}, function (m) {
+    if (done) done(m && m.payload ? m.payload : {});
+  });
+}
+
+/** This app over the input on screen, its screen hidden (at most once every 4 seconds). */
+function openOverlay() {
+  var now = Date.now();
+  if (now - lastOpened < 4000) return;
+  lastOpened = now;
+  call("luna://com.webos.applicationManager/launch", { id: APP, params: { overlay: true } });
+}
+
+function isRunning(done) {
+  call("luna://com.webos.applicationManager/running", {}, function (r) {
+    var list = (r && r.running) || [];
+    done(list.some(function (a) {
+      return a && a.id === APP;
+    }));
+  });
+}
+
+function startWatching() {
+  if (foregroundSub) return;
+  hold();
+  foregroundSub = service.subscribe("luna://com.webos.applicationManager/getForegroundAppInfo", { subscribe: true });
+  foregroundSub.on("response", function (m) {
+    var id = m && m.payload && m.payload.appId;
+    if (!watching || typeof id !== "string" || !HDMI.test(id)) return;
+    // (the input needs a moment in front before an overlay can open over it)
+    setTimeout(function () {
+      isRunning(function (running) {
+        if (!running && watching) openOverlay();
+      });
+    }, 1500);
+  });
+}
+
+function stopWatching() {
+  if (foregroundSub) {
+    try {
+      foregroundSub.cancel();
+    } catch (e) {
+      // gone
+    }
+  }
+  foregroundSub = null;
+  if (!server) release();
+}
+
+service.register("watch", function (message) {
+  watching = !!(message.payload && message.payload.on);
+  if (watching) startWatching();
+  else stopWatching();
+  message.respond({ returnValue: true, watching: watching });
+});
+
+service.register("play", function (message) {
+  var input = message.payload && message.payload.input;
+  if (typeof input !== "string" || !HDMI.test(input)) {
+    message.respond({ returnValue: false, errorText: "an HDMI input is needed" });
+    return;
+  }
+  hold();
+  call("luna://com.webos.applicationManager/launch", { id: input }, function (r) {
+    message.respond({ returnValue: r.returnValue !== false, errorText: r.errorText });
+    // (when watching, the input coming in front opens the overlay; this is for when it isn't)
+    setTimeout(function () {
+      isRunning(function (running) {
+        if (!running) openOverlay();
+        if (!watching && !server) release();
+      });
+    }, 2500);
   });
 });
 
