@@ -52,6 +52,11 @@ body {
   object-fit: contain;
 }
 
+#details {
+  margin-top: 8px;
+  opacity: 0.6;
+}
+
 #pictureStatus {
   margin-top: 24px;
   color: var(--warn);

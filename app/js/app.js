@@ -29,9 +29,12 @@
   var LINGER_MS = 10 * 60000;
   /** no picture from the input within this long: said on the screen */
   var NO_PICTURE_MS = 8000;
-  /** after the picture failed: tried again, the wait doubling up to the longest */
-  var VIDEO_RETRY_MS = 1000;
-  var VIDEO_RETRY_MAX_MS = 10000;
+  /**
+   * After the picture failed: tried again after these waits (the last one repeating), unless it came
+   * back by itself meanwhile. webOS reports passing hiccups as failures too: restarting at once broke
+   * a picture that was coming back, and that restart's own hiccup the next one (cut every few seconds).
+   */
+  var VIDEO_RETRY_MS = [3000, 5000, 10000, 20000, 30000];
   /** hidden this long (another app or the TV's menu in front): the HDMI picture is let go */
   var RELEASE_HIDDEN_MS = 3000;
 
@@ -324,6 +327,7 @@
     $("playOn").textContent = t("play_on");
     $("disconnect").textContent = t("disconnect");
     $("pictureStatus").textContent = pictureNote;
+    $("details").textContent = details();
   }
 
   function press(id) {
@@ -633,7 +637,13 @@
   var videoInput = 0;
   var noPicture = null;
   var retryTimer = null;
-  var retryMs = VIDEO_RETRY_MS;
+  var retryN = 0;
+  /** when the picture last played; for the screen's details line: restarts, the last video event,
+   *  and how often the app was hidden */
+  var lastPlayingAt = 0;
+  var restarts = 0;
+  var lastEvent = "";
+  var hides = 0;
   var releaseTimer = null;
   /** said under the buttons: no picture from the input */
   var pictureNote = "";
@@ -692,7 +702,7 @@
     src.setAttribute("type", "service/webos-external");
     src.setAttribute("src", "ext://hdmi:" + n);
     v.appendChild(src);
-    ["playing", "error", "abort", "emptied", "ended"].forEach(function (name) {
+    ["playing", "error", "abort", "emptied", "ended", "stalled", "waiting"].forEach(function (name) {
       v.addEventListener(name, function () {
         onVideo(v, name);
       });
@@ -718,25 +728,37 @@
 
   function onVideo(v, name) {
     if (v !== video) return;
+    lastEvent = name;
     if (name === "playing") {
       playing = true;
-      retryMs = VIDEO_RETRY_MS;
+      lastPlayingAt = Date.now();
+      retryN = 0;
       clearTimeout(noPicture);
       pictureNote = "";
       awake(!document.hidden);
       render();
       return;
     }
-    if (FAILED[name]) {
-      // the picture went: started again a moment later (the console restarting, the cable moved)
-      playing = false;
-      awake(false);
-      clearTimeout(retryTimer);
+    // (stalled and waiting come now and then while the picture runs fine: nothing to do)
+    if (FAILED[name] && !retryTimer) {
+      var failedAt = Date.now();
       retryTimer = setTimeout(function () {
-        if (video === v) play(videoInput, true);
-      }, retryMs);
-      retryMs = Math.min(VIDEO_RETRY_MAX_MS, retryMs * 2);
+        retryTimer = null;
+        if (video !== v || document.hidden) return;
+        if (lastPlayingAt > failedAt) return; // back by itself
+        restarts++;
+        retryN++;
+        playing = false;
+        awake(false);
+        play(videoInput, true);
+      }, VIDEO_RETRY_MS[Math.min(retryN, VIDEO_RETRY_MS.length - 1)]);
     }
+  }
+
+  /** "HDMI 2 · restarts 3 · emptied · hidden 1×": what the picture did, for a player's report. */
+  function details() {
+    if (!videoInput) return "";
+    return "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "");
   }
 
   function onNoPicture() {
@@ -788,6 +810,7 @@
       resume();
       return;
     }
+    hides++;
     // behind another app or the TV's menu: the screen saver may come; a short menu keeps the picture
     awake(false);
     clearTimeout(releaseTimer);
