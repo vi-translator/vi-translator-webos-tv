@@ -1,6 +1,6 @@
 {
   "id": "app.vitranslator.tv",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "vendor": "VI Translator",
   "type": "web",
   "main": "index.html",
@@ -9,10 +9,8 @@
   "largeIcon": "largeIcon.png",
   "iconColor": "#0f0b17",
   "resolution": "1920x1080",
-  "transparent": true,
-  "defaultWindowType": "overlay",
   "disableBackHistoryAPI": true,
   "handlesRelaunch": true,
   "noSplashOnLaunch": true,
-  "bgColor": "#00000000"
+  "bgColor": "#000000"
 }

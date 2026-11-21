@@ -6,6 +6,11 @@ The app is **not** in the LG Content Store. LG Seller Lounge rejects the package
 which is its purpose. (Tried 2026-11-18 with 1.0.0; a draft with App ID `app.vitranslator.tv` was
 started in Seller Lounge and left unsubmitted.)
 
+From 1.1.0 the app no longer uses the overlay window: it shows the HDMI input inside itself. That
+setting is gone from appinfo.json, so the store's first refusal no longer applies. A new submission
+hasn't been tried; the store may still have rules about apps that show an HDMI input or keep the
+screen saver away, and the listing texts in `listing/` still describe the overlay of 1.0.
+
 So the app is installed from its GitHub Release (`vi-translator-webos-tv-X.Y.Z.ipk`) in one of these
 ways:
 

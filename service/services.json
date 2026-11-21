@@ -6,12 +6,22 @@
       "name": "app.vitranslator.tv.service",
       "description": "Waits for the PC to connect this TV, and asks the PC how it is",
       "commands": [
-        { "name": "pair", "description": "Wait to be connected: sends the code, then the connection (subscription)" },
-        { "name": "ask", "description": "How the PC is" },
-        { "name": "forget", "description": "Tell the PC this TV disconnected" },
-        { "name": "find", "description": "Look for the PC at a new address" },
-        { "name": "watch", "description": "While connected: open the overlay again when an HDMI input comes in front" },
-        { "name": "play", "description": "Switch to an HDMI input and open the overlay over it" }
+        {
+          "name": "pair",
+          "description": "Wait to be connected: sends the code, then the connection (subscription)"
+        },
+        {
+          "name": "ask",
+          "description": "How the PC is"
+        },
+        {
+          "name": "forget",
+          "description": "Tell the PC this TV disconnected"
+        },
+        {
+          "name": "find",
+          "description": "Look for the PC at a new address"
+        }
       ]
     }
   ]

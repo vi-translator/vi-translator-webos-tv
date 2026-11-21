@@ -13,7 +13,8 @@ var STRINGS = {
   "language": "App language",
   "language_tv": "TV language",
   "hide_hint": "Press Back to hide this screen",
-  "play_on": "Play on…"
+  "play_on": "Play on…",
+  "no_picture": "No picture from {0}. Make sure the console is on, or pick another input."
  },
  "ar": {
   "enter_code": "أدخل هذا الرمز في VI Translator على جهاز الكمبيوتر",
@@ -28,7 +29,8 @@ var STRINGS = {
   "language": "لغة التطبيق",
   "language_tv": "لغة التلفاز",
   "hide_hint": "اضغط «رجوع» لإخفاء هذه الشاشة",
-  "play_on": "العب على…"
+  "play_on": "العب على…",
+  "no_picture": "لا تصل صورة من {0}. تأكد أن جهاز اللعب يعمل، أو اختر مدخلاً آخر."
  },
  "es-419": {
   "enter_code": "Escribe este código en VI Translator en tu PC",
@@ -43,7 +45,8 @@ var STRINGS = {
   "language": "Idioma de la app",
   "language_tv": "Idioma de la TV",
   "hide_hint": "Presiona Atrás para ocultar esta pantalla",
-  "play_on": "Jugar en…"
+  "play_on": "Jugar en…",
+  "no_picture": "No hay imagen de {0}. Revisa que la consola esté encendida o elige otra entrada."
  },
  "zh-Hans": {
   "enter_code": "在电脑上的 VI Translator 中输入此代码",
@@ -58,7 +61,8 @@ var STRINGS = {
   "language": "界面语言",
   "language_tv": "电视语言",
   "hide_hint": "按返回键隐藏此画面",
-  "play_on": "在此输入上游玩…"
+  "play_on": "在此输入上游玩…",
+  "no_picture": "{0} 没有画面。请确认游戏机已开启，或选择其他输入源。"
  },
  "zh-Hant": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -73,7 +77,8 @@ var STRINGS = {
   "language": "介面語言",
   "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面",
-  "play_on": "在此輸入上遊玩…"
+  "play_on": "在此輸入上遊玩…",
+  "no_picture": "{0} 沒有畫面。請確認遊戲機已開啟，或選擇其他輸入來源。"
  },
  "bn": {
   "enter_code": "আপনার পিসিতে VI Translator-এ এই কোডটি লিখুন",
@@ -88,7 +93,8 @@ var STRINGS = {
   "language": "অ্যাপের ভাষা",
   "language_tv": "টিভির ভাষা",
   "hide_hint": "এই স্ক্রিন লুকাতে Back চাপুন",
-  "play_on": "এতে খেলুন…"
+  "play_on": "এতে খেলুন…",
+  "no_picture": "{0} থেকে কোনো ছবি আসছে না। কনসোল চালু আছে কিনা দেখুন, বা অন্য ইনপুট বেছে নিন।"
  },
  "cs": {
   "enter_code": "Zadejte tento kód ve VI Translator na počítači",
@@ -103,7 +109,8 @@ var STRINGS = {
   "language": "Jazyk aplikace",
   "language_tv": "Jazyk televize",
   "hide_hint": "Stisknutím Zpět tuto obrazovku skryjete",
-  "play_on": "Hrát na…"
+  "play_on": "Hrát na…",
+  "no_picture": "Z {0} nepřichází obraz. Zkontrolujte, že je konzole zapnutá, nebo zvolte jiný vstup."
  },
  "de": {
   "enter_code": "Gib diesen Code in VI Translator auf deinem PC ein",
@@ -118,7 +125,8 @@ var STRINGS = {
   "language": "App-Sprache",
   "language_tv": "Sprache des Fernsehers",
   "hide_hint": "Drücke Zurück, um diesen Bildschirm auszublenden",
-  "play_on": "Spielen auf…"
+  "play_on": "Spielen auf…",
+  "no_picture": "Kein Bild von {0}. Prüfe, ob die Konsole an ist, oder wähle einen anderen Eingang."
  },
  "el": {
   "enter_code": "Πληκτρολογήστε αυτόν τον κωδικό στο VI Translator στον υπολογιστή σας",
@@ -133,7 +141,8 @@ var STRINGS = {
   "language": "Γλώσσα εφαρμογής",
   "language_tv": "Γλώσσα τηλεόρασης",
   "hide_hint": "Πατήστε Πίσω για απόκρυψη αυτής της οθόνης",
-  "play_on": "Παιχνίδι σε…"
+  "play_on": "Παιχνίδι σε…",
+  "no_picture": "Δεν υπάρχει εικόνα από {0}. Βεβαιωθείτε ότι η κονσόλα είναι ανοιχτή ή επιλέξτε άλλη είσοδο."
  },
  "es": {
   "enter_code": "Introduce este código en VI Translator en tu PC",
@@ -148,7 +157,8 @@ var STRINGS = {
   "language": "Idioma de la aplicación",
   "language_tv": "Idioma de la tele",
   "hide_hint": "Pulsa Atrás para ocultar esta pantalla",
-  "play_on": "Jugar en…"
+  "play_on": "Jugar en…",
+  "no_picture": "No hay imagen de {0}. Comprueba que la consola esté encendida o elige otra entrada."
  },
  "es-MX": {
   "enter_code": "Escribe este código en VI Translator en tu PC",
@@ -163,7 +173,8 @@ var STRINGS = {
   "language": "Idioma de la app",
   "language_tv": "Idioma de la TV",
   "hide_hint": "Presiona Atrás para ocultar esta pantalla",
-  "play_on": "Jugar en…"
+  "play_on": "Jugar en…",
+  "no_picture": "No hay imagen de {0}. Revisa que la consola esté encendida o elige otra entrada."
  },
  "fa": {
   "enter_code": "این کد را در VI Translator روی رایانه وارد کنید",
@@ -178,7 +189,8 @@ var STRINGS = {
   "language": "زبان برنامه",
   "language_tv": "زبان تلویزیون",
   "hide_hint": "برای پنهان کردن این صفحه، «بازگشت» را بزنید",
-  "play_on": "بازی روی…"
+  "play_on": "بازی روی…",
+  "no_picture": "تصویری از {0} نمی‌رسد. مطمئن شوید کنسول روشن است، یا ورودی دیگری انتخاب کنید."
  },
  "fil": {
   "enter_code": "Ilagay ang code na ito sa VI Translator sa iyong PC",
@@ -193,7 +205,8 @@ var STRINGS = {
   "language": "Wika ng app",
   "language_tv": "Wika ng TV",
   "hide_hint": "Pindutin ang Back para itago ang screen na ito",
-  "play_on": "Maglaro sa…"
+  "play_on": "Maglaro sa…",
+  "no_picture": "Walang larawan mula sa {0}. Tiyaking naka-on ang console, o pumili ng ibang input."
  },
  "fr": {
   "enter_code": "Saisissez ce code dans VI Translator sur votre PC",
@@ -208,7 +221,8 @@ var STRINGS = {
   "language": "Langue de l'application",
   "language_tv": "Langue de la TV",
   "hide_hint": "Appuyez sur Retour pour masquer cet écran",
-  "play_on": "Jouer sur…"
+  "play_on": "Jouer sur…",
+  "no_picture": "Aucune image de {0}. Vérifie que la console est allumée, ou choisis une autre entrée."
  },
  "hi": {
   "enter_code": "अपने पीसी पर VI Translator में यह कोड डालें",
@@ -223,7 +237,8 @@ var STRINGS = {
   "language": "ऐप की भाषा",
   "language_tv": "टीवी की भाषा",
   "hide_hint": "इस स्क्रीन को छिपाने के लिए Back दबाएँ",
-  "play_on": "इस पर खेलें…"
+  "play_on": "इस पर खेलें…",
+  "no_picture": "{0} से कोई तस्वीर नहीं आ रही। देखें कि कंसोल चालू है, या कोई दूसरा इनपुट चुनें।"
  },
  "id": {
   "enter_code": "Masukkan kode ini di VI Translator di PC Anda",
@@ -238,7 +253,8 @@ var STRINGS = {
   "language": "Bahasa aplikasi",
   "language_tv": "Bahasa TV",
   "hide_hint": "Tekan Kembali untuk menyembunyikan layar ini",
-  "play_on": "Main di…"
+  "play_on": "Main di…",
+  "no_picture": "Tidak ada gambar dari {0}. Pastikan konsol menyala, atau pilih input lain."
  },
  "it": {
   "enter_code": "Inserisci questo codice in VI Translator sul PC",
@@ -253,7 +269,8 @@ var STRINGS = {
   "language": "Lingua dell'app",
   "language_tv": "Lingua della TV",
   "hide_hint": "Premi Indietro per nascondere questa schermata",
-  "play_on": "Gioca su…"
+  "play_on": "Gioca su…",
+  "no_picture": "Nessuna immagine da {0}. Controlla che la console sia accesa, o scegli un altro ingresso."
  },
  "ja": {
   "enter_code": "PC の VI Translator にこのコードを入力してください",
@@ -268,7 +285,8 @@ var STRINGS = {
   "language": "アプリの言語",
   "language_tv": "テレビの言語",
   "hide_hint": "戻るボタンでこの画面を隠します",
-  "play_on": "プレイする入力…"
+  "play_on": "プレイする入力…",
+  "no_picture": "{0} から映像が来ていません。ゲーム機の電源を確認するか、別の入力を選んでください。"
  },
  "ko": {
   "enter_code": "PC의 VI Translator에 이 코드를 입력하세요",
@@ -283,7 +301,8 @@ var STRINGS = {
   "language": "앱 언어",
   "language_tv": "TV 언어",
   "hide_hint": "뒤로 버튼을 눌러 이 화면을 숨기세요",
-  "play_on": "플레이할 입력…"
+  "play_on": "플레이할 입력…",
+  "no_picture": "{0}에서 화면이 오지 않습니다. 콘솔이 켜져 있는지 확인하거나 다른 입력을 선택하세요."
  },
  "mr": {
   "enter_code": "तुमच्या पीसीवरील VI Translator मध्ये हा कोड टाका",
@@ -298,7 +317,8 @@ var STRINGS = {
   "language": "ॲपची भाषा",
   "language_tv": "टीव्हीची भाषा",
   "hide_hint": "ही स्क्रीन लपवण्यासाठी Back दाबा",
-  "play_on": "यावर खेळा…"
+  "play_on": "यावर खेळा…",
+  "no_picture": "{0} मधून चित्र येत नाही. कन्सोल चालू आहे का ते पाहा, किंवा दुसरे इनपुट निवडा."
  },
  "ms": {
   "enter_code": "Masukkan kod ini dalam VI Translator pada PC anda",
@@ -313,7 +333,8 @@ var STRINGS = {
   "language": "Bahasa aplikasi",
   "language_tv": "Bahasa TV",
   "hide_hint": "Tekan Kembali untuk menyembunyikan skrin ini",
-  "play_on": "Main di…"
+  "play_on": "Main di…",
+  "no_picture": "Tiada gambar daripada {0}. Pastikan konsol dihidupkan, atau pilih input lain."
  },
  "nl": {
   "enter_code": "Voer deze code in bij VI Translator op je pc",
@@ -328,7 +349,8 @@ var STRINGS = {
   "language": "App-taal",
   "language_tv": "Taal van de tv",
   "hide_hint": "Druk op Terug om dit scherm te verbergen",
-  "play_on": "Spelen op…"
+  "play_on": "Spelen op…",
+  "no_picture": "Geen beeld van {0}. Controleer of de console aan staat, of kies een andere ingang."
  },
  "pl": {
   "enter_code": "Wpisz ten kod w VI Translator na komputerze",
@@ -343,7 +365,8 @@ var STRINGS = {
   "language": "Język aplikacji",
   "language_tv": "Język telewizora",
   "hide_hint": "Naciśnij Wstecz, aby ukryć ten ekran",
-  "play_on": "Graj na…"
+  "play_on": "Graj na…",
+  "no_picture": "Brak obrazu z {0}. Sprawdź, czy konsola jest włączona, lub wybierz inne wejście."
  },
  "pt": {
   "enter_code": "Digite este código no VI Translator no seu PC",
@@ -358,7 +381,8 @@ var STRINGS = {
   "language": "Idioma do app",
   "language_tv": "Idioma da TV",
   "hide_hint": "Pressione Voltar para ocultar esta tela",
-  "play_on": "Jogar em…"
+  "play_on": "Jogar em…",
+  "no_picture": "Sem imagem de {0}. Confirma que a consola está ligada, ou escolhe outra entrada."
  },
  "pt-BR": {
   "enter_code": "Digite este código no VI Translator no seu PC",
@@ -373,7 +397,8 @@ var STRINGS = {
   "language": "Idioma do app",
   "language_tv": "Idioma da TV",
   "hide_hint": "Pressione Voltar para ocultar esta tela",
-  "play_on": "Jogar em…"
+  "play_on": "Jogar em…",
+  "no_picture": "Sem imagem de {0}. Verifique se o console está ligado ou escolha outra entrada."
  },
  "ro": {
   "enter_code": "Introdu acest cod în VI Translator pe PC",
@@ -388,7 +413,8 @@ var STRINGS = {
   "language": "Limba aplicației",
   "language_tv": "Limba televizorului",
   "hide_hint": "Apasă Înapoi pentru a ascunde acest ecran",
-  "play_on": "Joacă pe…"
+  "play_on": "Joacă pe…",
+  "no_picture": "Nu vine imagine de la {0}. Verifică dacă consola e pornită sau alege altă intrare."
  },
  "ru": {
   "enter_code": "Введите этот код в VI Translator на ПК",
@@ -403,7 +429,8 @@ var STRINGS = {
   "language": "Язык приложения",
   "language_tv": "Язык телевизора",
   "hide_hint": "Нажмите «Назад», чтобы скрыть этот экран",
-  "play_on": "Играть на…"
+  "play_on": "Играть на…",
+  "no_picture": "Нет изображения с {0}. Проверьте, что консоль включена, или выберите другой вход."
  },
  "sw": {
   "enter_code": "Weka msimbo huu katika VI Translator kwenye kompyuta yako",
@@ -418,7 +445,8 @@ var STRINGS = {
   "language": "Lugha ya programu",
   "language_tv": "Lugha ya TV",
   "hide_hint": "Bonyeza Nyuma ili kuficha skrini hii",
-  "play_on": "Cheza kwenye…"
+  "play_on": "Cheza kwenye…",
+  "no_picture": "Hakuna picha kutoka {0}. Hakikisha konsoli imewashwa, au chagua ingizo jingine."
  },
  "ta": {
   "enter_code": "உங்கள் கணினியில் VI Translator-இல் இந்தக் குறியீட்டை உள்ளிடவும்",
@@ -433,7 +461,8 @@ var STRINGS = {
   "language": "செயலியின் மொழி",
   "language_tv": "டிவியின் மொழி",
   "hide_hint": "இந்தத் திரையை மறைக்க Back-ஐ அழுத்தவும்",
-  "play_on": "இதில் விளையாடு…"
+  "play_on": "இதில் விளையாடு…",
+  "no_picture": "{0} இலிருந்து படம் வரவில்லை. கன்சோல் இயக்கத்தில் உள்ளதா எனப் பாருங்கள், அல்லது வேறு உள்ளீட்டைத் தேர்ந்தெடுங்கள்."
  },
  "te": {
   "enter_code": "మీ PCలో VI Translatorలో ఈ కోడ్‌ను నమోదు చేయండి",
@@ -448,7 +477,8 @@ var STRINGS = {
   "language": "యాప్ భాష",
   "language_tv": "టీవీ భాష",
   "hide_hint": "ఈ స్క్రీన్‌ను దాచడానికి Back నొక్కండి",
-  "play_on": "దీనిలో ఆడండి…"
+  "play_on": "దీనిలో ఆడండి…",
+  "no_picture": "{0} నుండి చిత్రం రావడం లేదు. కన్సోల్ ఆన్‌లో ఉందో చూడండి, లేదా వేరే ఇన్‌పుట్ ఎంచుకోండి."
  },
  "th": {
   "enter_code": "ใส่รหัสนี้ใน VI Translator บนพีซีของคุณ",
@@ -463,7 +493,8 @@ var STRINGS = {
   "language": "ภาษาของแอป",
   "language_tv": "ภาษาของทีวี",
   "hide_hint": "กดย้อนกลับเพื่อซ่อนหน้าจอนี้",
-  "play_on": "เล่นบน…"
+  "play_on": "เล่นบน…",
+  "no_picture": "ไม่มีภาพจาก {0} ตรวจสอบว่าเครื่องเกมเปิดอยู่ หรือเลือกอินพุตอื่น"
  },
  "tl": {
   "enter_code": "Ilagay ang code na ito sa VI Translator sa iyong PC",
@@ -478,7 +509,8 @@ var STRINGS = {
   "language": "Wika ng app",
   "language_tv": "Wika ng TV",
   "hide_hint": "Pindutin ang Back para itago ang screen na ito",
-  "play_on": "Maglaro sa…"
+  "play_on": "Maglaro sa…",
+  "no_picture": "Walang larawan mula sa {0}. Tiyaking naka-on ang console, o pumili ng ibang input."
  },
  "tr": {
   "enter_code": "Bu kodu bilgisayarınızdaki VI Translator'a girin",
@@ -493,7 +525,8 @@ var STRINGS = {
   "language": "Uygulama dili",
   "language_tv": "Televizyonun dili",
   "hide_hint": "Bu ekranı gizlemek için Geri'ye basın",
-  "play_on": "Şurada oyna…"
+  "play_on": "Şurada oyna…",
+  "no_picture": "{0} girişinden görüntü gelmiyor. Konsolun açık olduğundan emin ol ya da başka bir giriş seç."
  },
  "uk": {
   "enter_code": "Введіть цей код у VI Translator на ПК",
@@ -508,7 +541,8 @@ var STRINGS = {
   "language": "Мова застосунку",
   "language_tv": "Мова телевізора",
   "hide_hint": "Натисніть «Назад», щоб приховати цей екран",
-  "play_on": "Грати на…"
+  "play_on": "Грати на…",
+  "no_picture": "Немає зображення з {0}. Перевірте, що консоль увімкнена, або виберіть інший вхід."
  },
  "ur": {
   "enter_code": "اپنے پی سی پر VI Translator میں یہ کوڈ درج کریں",
@@ -523,7 +557,8 @@ var STRINGS = {
   "language": "ایپ کی زبان",
   "language_tv": "ٹی وی کی زبان",
   "hide_hint": "یہ اسکرین چھپانے کے لیے Back دبائیں",
-  "play_on": "اس پر کھیلیں…"
+  "play_on": "اس پر کھیلیں…",
+  "no_picture": "{0} سے تصویر نہیں آ رہی۔ دیکھیں کہ کنسول آن ہے، یا کوئی اور ان پٹ چنیں۔"
  },
  "vi": {
   "enter_code": "Nhập mã này trong VI Translator trên PC",
@@ -538,7 +573,8 @@ var STRINGS = {
   "language": "Ngôn ngữ ứng dụng",
   "language_tv": "Ngôn ngữ của TV",
   "hide_hint": "Nhấn Quay lại để ẩn màn hình này",
-  "play_on": "Chơi trên…"
+  "play_on": "Chơi trên…",
+  "no_picture": "Không có hình từ {0}. Hãy kiểm tra máy chơi game đã bật, hoặc chọn đầu vào khác."
  },
  "zh-CN": {
   "enter_code": "在电脑上的 VI Translator 中输入此代码",
@@ -553,7 +589,8 @@ var STRINGS = {
   "language": "界面语言",
   "language_tv": "电视语言",
   "hide_hint": "按返回键隐藏此画面",
-  "play_on": "在此输入上游玩…"
+  "play_on": "在此输入上游玩…",
+  "no_picture": "{0} 没有画面。请确认游戏机已开启，或选择其他输入源。"
  },
  "zh-HK": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -568,7 +605,8 @@ var STRINGS = {
   "language": "介面語言",
   "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面",
-  "play_on": "在此輸入上遊玩…"
+  "play_on": "在此輸入上遊玩…",
+  "no_picture": "{0} 沒有畫面。請確認遊戲機已開啟，或選擇其他輸入來源。"
  },
  "zh-TW": {
   "enter_code": "在電腦上的 VI Translator 中輸入此代碼",
@@ -583,6 +621,7 @@ var STRINGS = {
   "language": "介面語言",
   "language_tv": "電視語言",
   "hide_hint": "按返回鍵隱藏此畫面",
-  "play_on": "在此輸入上遊玩…"
+  "play_on": "在此輸入上遊玩…",
+  "no_picture": "{0} 沒有畫面。請確認遊戲機已開啟，或選擇其他輸入來源。"
  }
 };

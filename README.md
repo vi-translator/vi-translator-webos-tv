@@ -18,11 +18,13 @@ needs an LG TV with webOS 5.0 or newer (2020 models and later), with the console
 1. The console goes into a capture card with passthrough, and the card's passthrough goes into the
    TV, so the game reaches the TV with no delay.
 2. VI Translator on the PC reads the subtitles from the capture card and translates them.
-3. This app shows the translations over the TV picture, where they would be on the game picture.
-   Only the text crosses your home network, so it shows as fast as on the PC.
+3. This app shows the console's HDMI input itself, full screen, with the translations over it
+   where they would be on the game picture. Only the text crosses your home network, so it shows
+   as fast as on the PC.
 
-Once its screen is hidden, the app never takes the remote: it keeps working the TV and the game
-under it.
+While the game plays, the app keeps the TV awake: the game's picture inside an app doesn't count as
+"playing" for webOS, so the TV would otherwise start its screen saver after a few minutes without a
+remote key.
 
 ## Setup
 
@@ -32,19 +34,19 @@ under it.
    input of this TV: it keeps waiting for 10 minutes, with the same code.
 3. **On the PC:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
    press *Connect*. Sharing on the home network is turned on if it was off.
-4. **Play on…** → the console's HDMI input. The TV switches to it and the translations show over
-   it, the app's screen hidden.
+4. **Play on…** → the console's HDMI input. The game shows in the app with the translations over
+   it, the app's screen hidden. The app remembers the input: next time it opens straight on the
+   game.
 
-Switching inputs with the remote's **Source** button closes the app (webOS keeps one app in front),
-so use *Play on…* instead. If Source was used anyway, the app opens again by itself over the HDMI
-input a moment later, as long as the TV is connected.
+Keep the app open while you play: switching inputs with the remote's **Source** button, or another
+app, takes the game out of it. Turn off **SIMPLINK (HDMI-CEC)** in the TV's settings and HDMI-CEC
+on the console, so the TV doesn't switch inputs by itself when the console wakes up. **Back** (or
+**OK**) shows the app's screen over the game, and Back hides it again.
 
 Opened again from the launcher, the app shows the connection and three buttons:
 
-- **Play on…:** HDMI 1 to 4 (or the TV's own list of inputs): switches to that input with the
-  translations over it.
-- **Show on:** a list of all inputs, or one HDMI input only (the console's): the translations then
-  hide on other inputs and apps.
+- **Play on…:** HDMI 1 to 4 (or the TV's own list of inputs): shows that input in the app with the
+  translations over it. If no picture comes within a few seconds, the screen says so.
 - **Disconnect:** the TV forgets the PC and shows a new code. Removing the TV in VI Translator on
   the PC does the same.
 
@@ -55,13 +57,11 @@ The app finds the PC again if the router gives it a new address.
 
 ### What's different from the Android TV app
 
-webOS has no official way for an app to draw over another input. This app uses a window kind that
-LG doesn't document (`"defaultWindowType": "overlay"`), which other webOS developers found works
-from webOS 5. So:
-
-- **Open it again after the TV turns on:** webOS doesn't let a normal app start by itself.
-- **The Home button closes it** (webOS closes overlay windows when the home screen opens). Open it
-  again from the launcher; it stays connected.
+- **The game plays inside the app** (webOS's way of showing an HDMI input in an app), instead of
+  the app drawing over the TV's own input: webOS pauses or closes an app drawn over another one
+  after a while, which cut the translations off after a few minutes in versions before 1.1.0.
+- **Open it again after the TV turns on:** webOS doesn't let a normal app start by itself. It
+  starts on the game's input straight away.
 - **webOS 4 and older can't run it:** VI Translator's TV page needs a newer web engine than they
   have (Chromium 53 and older).
 
@@ -115,7 +115,8 @@ npm run dev          # try it in a browser without a TV: http://127.0.0.1:8793/?
 npm run inspect      # Chrome DevTools for the app on the TV
 ```
 
-- `app/`: the web app (the code screen, the connection screen and the overlay).
+- `app/`: the web app (the code screen, the connection screen, the game's input and the
+  translations over it; `js/awake.js` keeps the TV awake while the game plays).
 - `service/`: its background service (Node.js), which waits for the PC on the home network (port
   8792) and asks the PC how it is: a web app can't do either on webOS.
 - `tools/strings.mjs` makes `app/js/strings.js` (33 languages) from the Android TV app's

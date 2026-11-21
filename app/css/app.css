@@ -27,8 +27,8 @@ body {
   width: 1920px;
   height: 1080px;
   overflow: hidden;
-  /* transparent: the TV picture shows under the translations */
-  background: transparent;
+  /* the game's picture fills the app; black around it */
+  background: #000;
   font-family: "Changa", sans-serif;
   font-weight: 400;
   color: var(--text);
@@ -36,6 +36,26 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+#stage,
+#stage video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  background: #000;
+}
+
+#stage video {
+  object-fit: contain;
+}
+
+#pictureStatus {
+  margin-top: 24px;
+  color: var(--warn);
+  min-height: 1em;
 }
 
 #overlay {
