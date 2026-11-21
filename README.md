@@ -22,6 +22,10 @@ needs an LG TV with webOS 5.0 or newer (2020 models and later), with the console
    where they would be on the game picture. Only the text crosses your home network, so it shows
    as fast as on the PC.
 
+Or with the VI Translator phone app instead of the PC: the phone plays the PS5 or the Xbox over
+Remote Play (no capture card) and reads the subtitles there, and this app shows the translations
+on the TV the same way.
+
 While the game plays, the app keeps the TV awake: the game's picture inside an app doesn't count as
 "playing" for webOS, so the TV would otherwise start its screen saver after a few minutes without a
 remote key.
@@ -32,7 +36,7 @@ remote key.
    easiest way is webOS Dev Manager).
 2. **Open it:** it shows a 6-digit code. Press **Back** to hide the screen if the PC is on another
    input of this TV: it keeps waiting for 10 minutes, with the same code.
-3. **On the PC:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
+3. **On the PC or the phone:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
    press *Connect*. Sharing on the home network is turned on if it was off.
 4. **Play on…** → the console's HDMI input. The game shows in the app with the translations over
    it, the app's screen hidden. The app remembers the input: next time it opens straight on the
@@ -47,13 +51,13 @@ Opened again from the launcher, the app shows the connection and three buttons:
 
 - **Play on…:** HDMI 1 to 4 (or the TV's own list of inputs): shows that input in the app with the
   translations over it. If no picture comes within a few seconds, the screen says so.
-- **Disconnect:** the TV forgets the PC and shows a new code. Removing the TV in VI Translator on
-  the PC does the same.
+- **Disconnect:** the TV forgets the PC (or phone) and shows a new code. Removing the TV in VI
+  Translator on the PC or phone does the same.
 
 On both screens, the 🌐 button in the top corner picks the app's language: the TV's own, or any of
 the 33 languages of VI Translator on the PC.
 
-The app finds the PC again if the router gives it a new address.
+The app finds the PC or phone again if the router gives it a new address.
 
 ### What's different from the Android TV app
 
@@ -101,7 +105,7 @@ schedule.
 ## Tips
 
 - Show the game full screen with no zoom (picture size *Original* or *Just Scan*), so the
-  translations land where the PC expects.
+  translations land where the PC or phone expects.
 - The text style, the language and what is read are all set in VI Translator on the PC.
 
 ## Build
