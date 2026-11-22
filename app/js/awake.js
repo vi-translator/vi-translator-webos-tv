@@ -5,9 +5,11 @@
  * Three layers, each one tried quietly (a TV that refuses one keeps the others):
  *
  * - screen saver: the TV's power service asks its clients before it starts the screen saver
- *   (registerScreenSaverRequest, subscribed); each "Active" request is answered no. The request is
- *   registered again every 10 minutes, and when the TV doesn't answer within 10 seconds, since a TV
- *   may drop the subscription without a word;
+ *   (registerScreenSaverRequest, subscribed); each request (a reply with a timestamp: webOS 4 sends
+ *   no "state", others "Active") is answered no at once, the timestamp sent back exactly as it came
+ *   (the TV waits about 3 seconds). The client name is new on every start (a TV can keep an older
+ *   page's name). The request is registered again every 10 minutes, and when the TV doesn't answer
+ *   within 10 seconds, since a TV may drop the subscription without a word;
  * - wake lock: the page's Screen Wake Lock, where the TV's browser has it (taken again when the app
  *   shows again: the browser lets it go while hidden);
  * - screen back on: the TV's power state is watched; if the screen goes off while the game plays,
@@ -15,12 +17,15 @@
  *   viewer turned off on purpose stays off; never from standby: the app never turns a TV on).
  *
  * awake(on): wanted or not (the game's picture plays and the app is in front).
+ * awake.stats(): {asked, answered}: the TV's screen-saver requests and the "no" answers it took,
+ * for the screen's details line (a player's report tells whether the TV asks at all).
  */
 (function (root) {
   "use strict";
 
   var POWER = "luna://com.webos.service.tvpower/power/";
-  var CLIENT = "app.vitranslator.tv";
+  /** new on every start: a TV may keep the name an older page registered */
+  var CLIENT = "app.vitranslator.tv." + Date.now().toString(36);
   var REREGISTER_MS = 10 * 60000;
   var NO_ANSWER_MS = 10000;
   var SCREEN_ON_EVERY_MS = 20000;
@@ -37,6 +42,10 @@
   var power = null; // the power-state subscription
   var screenOnTries = 0;
   var lastScreenOn = 0;
+  var asked = 0;
+  var answered = 0;
+  /** the answers on their way (each on its own bridge, kept until the TV replies) */
+  var answers = [];
 
   function call(uri, params, cb) {
     try {
@@ -66,10 +75,16 @@
     var mine = call(POWER + "registerScreenSaverRequest", { clientName: CLIENT, subscribe: true }, function (r) {
       if (saver !== mine || !r) return; // (an older subscription)
       saverAnswered = true;
-      if (r.state === "Active" && r.timestamp !== undefined) {
-        // not now: the game is on
-        call(POWER + "responseScreenSaverRequest", { clientName: CLIENT, ack: false, timestamp: r.timestamp });
-      }
+      if (r.timestamp === undefined || r.timestamp === null || r.state === "Inactive") return;
+      // not now: the game is on (the timestamp as it came: a string on some TVs, a number on others)
+      asked++;
+      var a = call(POWER + "responseScreenSaverRequest", { clientName: CLIENT, ack: false, timestamp: r.timestamp }, function (res) {
+        if (res && res.returnValue !== false) answered++;
+        var i = answers.indexOf(a);
+        if (i >= 0) answers.splice(i, 1);
+      });
+      if (a) answers.push(a);
+      if (answers.length > 8) answers.shift();
     });
     saver = mine;
     // no answer at all: the TV may have dropped it; registered again
@@ -164,6 +179,10 @@
       stopPower();
     }
   }
+
+  awake.stats = function () {
+    return { asked: asked, answered: answered };
+  };
 
   root.awake = awake;
 })(window);

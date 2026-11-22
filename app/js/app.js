@@ -698,6 +698,12 @@
     var v = document.createElement("video");
     v.autoplay = true;
     v.setAttribute("autoplay", "");
+    // exactly the window's size, inline: webOS counts only a video filling the screen as playing (one
+    // that doesn't can let the screen saver in, as YouTube's webOS app found)
+    v.style.left = "0px";
+    v.style.top = "0px";
+    v.style.width = (window.innerWidth || 1920) + "px";
+    v.style.height = (window.innerHeight || 1080) + "px";
     var src = document.createElement("source");
     src.setAttribute("type", "service/webos-external");
     src.setAttribute("src", "ext://hdmi:" + n);
@@ -758,7 +764,11 @@
   /** "HDMI 2 · restarts 3 · emptied · hidden 1×": what the picture did, for a player's report. */
   function details() {
     if (!videoInput) return "";
-    return "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "");
+    var saver = awake.stats();
+    return (
+      "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "") +
+      " · saver " + saver.answered + "/" + saver.asked
+    );
   }
 
   function onNoPicture() {
