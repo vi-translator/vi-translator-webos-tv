@@ -2,7 +2,13 @@
  * Keeps the TV awake while the game plays in the app. The game's HDMI picture inside the app doesn't
  * count as "playing" for webOS, so without this the screen saver starts after some minutes without a
  * remote key (the game is played on the console's controller), and some TVs then blank the screen.
- * Three layers, each one tried quietly (a TV that refuses one keeps the others):
+ * The layer webOS itself documents is in app/appinfo.json, not here: "screenSaverProperties"
+ * {"preferredType": 2} (OLED, webOS 5 and newer: an app with text over video; the screen saver waits
+ * 30 minutes and then only dims the text, never the picture) and "enablePigScreenSaver": false (LG's
+ * answer for a video webOS doesn't count as full screen, as the HDMI input in an app can be). LG says
+ * a full-screen video is the only other thing that keeps the screen saver away; webOS 6 has no
+ * screen-saver off switch. The layers below are tried on top, each one quietly (a TV that refuses
+ * one keeps the others):
  *
  * - screen saver: the TV's power service asks its clients before it starts the screen saver
  *   (registerScreenSaverRequest, subscribed); each request (a reply with a timestamp: webOS 4 sends
@@ -17,8 +23,9 @@
  *   viewer turned off on purpose stays off; never from standby: the app never turns a TV on).
  *
  * awake(on): wanted or not (the game's picture plays and the app is in front).
- * awake.stats(): {asked, answered}: the TV's screen-saver requests and the "no" answers it took,
- * for the screen's details line (a player's report tells whether the TV asks at all).
+ * awake.stats(): {asked, answered, reg}: the TV's screen-saver requests, the "no" answers it took,
+ * and how the registration went ("" not yet, "ok", or the TV's error code/text), for the screen's
+ * details line (a player's report tells whether the TV refuses the call or just never asks).
  */
 (function (root) {
   "use strict";
@@ -44,6 +51,7 @@
   var lastScreenOn = 0;
   var asked = 0;
   var answered = 0;
+  var reg = "";
   /** the answers on their way (each on its own bridge, kept until the TV replies) */
   var answers = [];
 
@@ -75,6 +83,12 @@
     var mine = call(POWER + "registerScreenSaverRequest", { clientName: CLIENT, subscribe: true }, function (r) {
       if (saver !== mine || !r) return; // (an older subscription)
       saverAnswered = true;
+      if (r.returnValue === false) {
+        // refused (a TV that doesn't let this app ask): said on the details line; tried again in 10 minutes
+        reg = String(r.errorCode !== undefined ? r.errorCode : r.errorText || "refused").slice(0, 24);
+        return;
+      }
+      if (reg !== "ok") reg = "ok";
       if (r.timestamp === undefined || r.timestamp === null || r.state === "Inactive") return;
       // not now: the game is on (the timestamp as it came: a string on some TVs, a number on others)
       asked++;
@@ -181,7 +195,7 @@
   }
 
   awake.stats = function () {
-    return { asked: asked, answered: answered };
+    return { asked: asked, answered: answered, reg: reg };
   };
 
   root.awake = awake;

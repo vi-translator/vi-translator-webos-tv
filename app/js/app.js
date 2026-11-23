@@ -767,7 +767,7 @@
     var saver = awake.stats();
     return (
       "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "") +
-      " · saver " + saver.answered + "/" + saver.asked
+      " · saver " + saver.answered + "/" + saver.asked + (saver.reg && saver.reg !== "ok" ? " (" + saver.reg + ")" : "")
     );
   }
 

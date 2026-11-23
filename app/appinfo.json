@@ -12,5 +12,7 @@
   "disableBackHistoryAPI": true,
   "handlesRelaunch": true,
   "noSplashOnLaunch": true,
-  "bgColor": "#000000"
+  "bgColor": "#000000",
+  "screenSaverProperties": { "preferredType": 2 },
+  "enablePigScreenSaver": false
 }

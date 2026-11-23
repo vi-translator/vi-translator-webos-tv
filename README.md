@@ -28,7 +28,8 @@ on the TV the same way.
 
 While the game plays, the app keeps the TV awake: the game's picture inside an app doesn't count as
 "playing" for webOS, so the TV would otherwise start its screen saver after a few minutes without a
-remote key.
+remote key (on LG OLEDs with webOS 5 and newer, the app asks webOS for the screen saver
+LG made for text over video: it waits 30 minutes, then dims only the translations, never the game).
 
 ## Setup
 
