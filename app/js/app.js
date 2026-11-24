@@ -761,13 +761,15 @@
     }
   }
 
-  /** "HDMI 2 · restarts 3 · emptied · hidden 1×": what the picture did, for a player's report. */
+  /** "HDMI 2 · restarts 3 · emptied · hidden 1× · saver 2/2 reg 1": what the picture did and the
+   *  screen saver's "no" answers taken/asked, registrations (and the TV's errors), for a player's report. */
   function details() {
     if (!videoInput) return "";
     var saver = awake.stats();
     return (
       "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "") +
-      " · saver " + saver.answered + "/" + saver.asked + (saver.reg && saver.reg !== "ok" ? " (" + saver.reg + ")" : "")
+      " · saver " + saver.answered + "/" + saver.asked + " reg " + saver.regs + (saver.reg && saver.reg !== "ok" ? " (" + saver.reg + ")" : "") +
+      (saver.no ? " no " + saver.no : "")
     );
   }
 

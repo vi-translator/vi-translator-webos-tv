@@ -13,9 +13,11 @@
  * - screen saver: the TV's power service asks its clients before it starts the screen saver
  *   (registerScreenSaverRequest, subscribed); each request (a reply with a timestamp: webOS 4 sends
  *   no "state", others "Active") is answered no at once, the timestamp sent back exactly as it came
- *   (the TV waits about 3 seconds). The client name is new on every start (a TV can keep an older
- *   page's name). The request is registered again every 10 minutes, and when the TV doesn't answer
- *   within 10 seconds, since a TV may drop the subscription without a word;
+ *   (the TV waits about 3 seconds). One registration for as long as the game plays: the C1 (webOS 6)
+ *   refused a name registered again ("-3", 1.1.4 re-registered every 10 minutes) and then took 1 "no"
+ *   of 4, so a registration is made again only when the TV refuses it or doesn't answer within 10
+ *   seconds, each time with a new client name (a TV keeps the names it has), and the answer goes back
+ *   with the name the request came to;
  * - wake lock: the page's Screen Wake Lock, where the TV's browser has it (taken again when the app
  *   shows again: the browser lets it go while hidden);
  * - screen back on: the TV's power state is watched; if the screen goes off while the game plays,
@@ -23,17 +25,19 @@
  *   viewer turned off on purpose stays off; never from standby: the app never turns a TV on).
  *
  * awake(on): wanted or not (the game's picture plays and the app is in front).
- * awake.stats(): {asked, answered, reg}: the TV's screen-saver requests, the "no" answers it took,
- * and how the registration went ("" not yet, "ok", or the TV's error code/text), for the screen's
- * details line (a player's report tells whether the TV refuses the call or just never asks).
+ * awake.stats(): {asked, answered, regs, reg, no}: the TV's screen-saver requests, the "no" answers
+ * it took, the registrations made, how the last one went ("" not yet, "ok", or the TV's error), and
+ * the TV's error on the last refused answer, for the screen's details line (a player's report tells
+ * whether the TV refuses the call, never asks, or turns the answers down).
  */
 (function (root) {
   "use strict";
 
   var POWER = "luna://com.webos.service.tvpower/power/";
-  /** new on every start: a TV may keep the name an older page registered */
-  var CLIENT = "app.vitranslator.tv." + Date.now().toString(36);
-  var REREGISTER_MS = 10 * 60000;
+  /** new on every start, and numbered per registration: a TV keeps the names already registered */
+  var CLIENT = "app.vitranslator.tv." + Date.now().toString(36) + ".";
+  /** a refused registration: tried again after 30 s, then 1, 2, 5 and every 10 minutes */
+  var RETRY_MS = [30000, 60000, 120000, 300000, 600000];
   var NO_ANSWER_MS = 10000;
   var SCREEN_ON_EVERY_MS = 20000;
   var SCREEN_ON_TRIES = 3;
@@ -43,7 +47,9 @@
   var wanted = false;
   var saver = null; // the screen-saver subscription
   var saverAnswered = false;
-  var reregister = null;
+  var retry = null;
+  var retryN = 0;
+  var regs = 0;
   var noAnswer = null;
   var lock = null;
   var power = null; // the power-state subscription
@@ -52,6 +58,7 @@
   var asked = 0;
   var answered = 0;
   var reg = "";
+  var no = "";
   /** the answers on their way (each on its own bridge, kept until the TV replies) */
   var answers = [];
 
@@ -61,6 +68,12 @@
     } catch (e) {
       return null;
     }
+  }
+
+  /** the TV's error, short: its code, else its text */
+  function err(r) {
+    if (!r) return "?";
+    return String(r.errorCode !== undefined ? r.errorCode : r.errorText || "refused").slice(0, 24);
   }
 
   function cancel(sub) {
@@ -79,21 +92,29 @@
     saver = null;
     saverAnswered = false;
     clearTimeout(noAnswer);
+    clearTimeout(retry);
+    retry = null;
     if (!wanted) return;
-    var mine = call(POWER + "registerScreenSaverRequest", { clientName: CLIENT, subscribe: true }, function (r) {
+    var name = CLIENT + (++regs).toString(36);
+    var mine = call(POWER + "registerScreenSaverRequest", { clientName: name, subscribe: true }, function (r) {
       if (saver !== mine || !r) return; // (an older subscription)
       saverAnswered = true;
       if (r.returnValue === false) {
-        // refused (a TV that doesn't let this app ask): said on the details line; tried again in 10 minutes
-        reg = String(r.errorCode !== undefined ? r.errorCode : r.errorText || "refused").slice(0, 24);
+        // refused: said on the details line; tried again later with a new name
+        reg = err(r);
+        saver = null;
+        cancel(mine);
+        retry = setTimeout(registerSaver, RETRY_MS[Math.min(retryN++, RETRY_MS.length - 1)]);
         return;
       }
-      if (reg !== "ok") reg = "ok";
+      reg = "ok";
+      retryN = 0;
       if (r.timestamp === undefined || r.timestamp === null || r.state === "Inactive") return;
       // not now: the game is on (the timestamp as it came: a string on some TVs, a number on others)
       asked++;
-      var a = call(POWER + "responseScreenSaverRequest", { clientName: CLIENT, ack: false, timestamp: r.timestamp }, function (res) {
+      var a = call(POWER + "responseScreenSaverRequest", { clientName: name, ack: false, timestamp: r.timestamp }, function (res) {
         if (res && res.returnValue !== false) answered++;
+        else no = err(res);
         var i = answers.indexOf(a);
         if (i >= 0) answers.splice(i, 1);
       });
@@ -101,7 +122,7 @@
       if (answers.length > 8) answers.shift();
     });
     saver = mine;
-    // no answer at all: the TV may have dropped it; registered again
+    // no answer at all: the TV may have dropped it; registered again (a new name)
     noAnswer = setTimeout(function () {
       if (wanted && !saverAnswered) registerSaver();
     }, NO_ANSWER_MS);
@@ -178,15 +199,15 @@
       return;
     }
     wanted = on;
-    clearInterval(reregister);
-    reregister = null;
     if (on) {
+      retryN = 0;
       registerSaver();
-      reregister = setInterval(registerSaver, REREGISTER_MS);
       takeLock();
       watchPower();
     } else {
       clearTimeout(noAnswer);
+      clearTimeout(retry);
+      retry = null;
       cancel(saver);
       saver = null;
       dropLock();
@@ -195,7 +216,7 @@
   }
 
   awake.stats = function () {
-    return { asked: asked, answered: answered, reg: reg };
+    return { asked: asked, answered: answered, regs: regs, reg: reg, no: no };
   };
 
   root.awake = awake;
