@@ -13,7 +13,10 @@
     <!-- the translations: the PC app's TV page, transparent, over the whole picture -->
     <iframe id="overlay" src="about:blank" tabindex="-1" allowtransparency="true" scrolling="no"></iframe>
 
-    <!-- the screen, minimal: the code while waiting; the connection, Show on and Disconnect once connected -->
+    <!-- the PC or phone not answering (the phone app paused by iOS during Remote Play): a note at the top -->
+    <div id="sourceNote" class="hidden"><div class="note"><span class="noteDot"></span><span id="sourceNoteText"></span></div></div>
+
+    <!-- the screen, minimal: the code while waiting, the connection once connected; Play on and Exit on both -->
     <div id="panel">
       <div id="column">
         <div id="brand"><img src="logo.png" alt="" /><span class="sunset">VI TRANSLATOR</span></div>
@@ -28,13 +31,15 @@
 
         <div id="connected" class="hidden">
           <div id="status"><span id="dot"></span><span id="statusText"></span></div>
-          <div id="buttons">
-            <button id="playOn"></button>
-            <button id="disconnect"></button>
-          </div>
-          <div id="pictureStatus" class="muted small"></div>
-          <div id="details" class="muted small" dir="ltr"></div>
         </div>
+
+        <div id="buttons">
+          <button id="playOn"></button>
+          <button id="disconnect"></button>
+          <button id="exit"></button>
+        </div>
+        <div id="pictureStatus" class="muted small"></div>
+        <div id="details" class="muted small" dir="ltr"></div>
 
         <div id="hint" class="muted small"></div>
       </div>

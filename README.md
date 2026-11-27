@@ -35,8 +35,9 @@ LG made for text over video: it waits 30 minutes, then dims only the translation
 
 1. **Install the app on the TV** (it isn't in the LG Content Store; see *Install* below, the
    easiest way is webOS Dev Manager).
-2. **Open it:** it shows a 6-digit code. Press **Back** to hide the screen if the PC is on another
-   input of this TV: it keeps waiting for 10 minutes, with the same code.
+2. **Open it:** it shows a 6-digit code. Press **Back** twice to hide the screen if the PC is on
+   another input of this TV: it keeps waiting for 10 minutes, with the same code. (**Play on…** is
+   there too, to show the console's input while you connect.)
 3. **On the PC or the phone:** in VI Translator, *Show on* tab, *Connect a TV*. Type the code and
    press *Connect*. Sharing on the home network is turned on if it was off.
 4. **Play on…** → the console's HDMI input. The game shows in the app with the translations over
@@ -46,14 +47,23 @@ LG made for text over video: it waits 30 minutes, then dims only the translation
 Keep the app open while you play: switching inputs with the remote's **Source** button, or another
 app, takes the game out of it. Turn off **SIMPLINK (HDMI-CEC)** in the TV's settings and HDMI-CEC
 on the console, so the TV doesn't switch inputs by itself when the console wakes up. **Back** (or
-**OK**) shows the app's screen over the game, and Back hides it again.
+**OK**) shows the app's screen over the game, and Back hides it again: Back never leaves the app
+while a game is on. To leave, use **Exit** (the TV goes to the console's input), or press Back twice
+on the app's screen when no game is on.
 
-Opened again from the launcher, the app shows the connection and three buttons:
+With the phone app: keep VI Translator open on the phone. If the phone pauses it (iOS does when you
+switch to PS Remote Play), the TV says *Waiting for VI Translator on your phone or PC* at the top
+until it answers again.
 
-- **Play on…:** HDMI 1 to 4 (or the TV's own list of inputs): shows that input in the app with the
-  translations over it. If no picture comes within a few seconds, the screen says so.
+Opened again from the launcher, the app shows the connection and its buttons:
+
+- **Play on…:** every input the TV lists (HDMI, and AV or component on TVs that have them), and
+  HDMI 1 to 4 always, even when the TV doesn't list one (a capture card's passthrough, say): shows
+  that input in the app with the translations over it. The app remembers it. If no picture comes
+  within a few seconds, the screen says so.
 - **Disconnect:** the TV forgets the PC (or phone) and shows a new code. Removing the TV in VI
   Translator on the PC or phone does the same.
+- **Exit:** closes the app, and the TV goes to the console's input.
 
 On both screens, the 🌐 button in the top corner picks the app's language: the TV's own, or any of
 the 33 languages of VI Translator on the PC.
