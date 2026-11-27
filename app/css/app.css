@@ -63,6 +63,45 @@ body {
   min-height: 1em;
 }
 
+/* the PC or phone not answering: a small note at the top, over the game and the screen */
+#sourceNote {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  width: 1920px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  /* (over the screen; under a list being picked from) */
+  z-index: 5;
+}
+
+#sourceNote .note {
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  padding: 14px 40px;
+  border-radius: 999px;
+  background: rgba(15, 11, 23, 0.88);
+  border: 2px solid rgba(255, 179, 92, 0.6);
+  font-size: 30px;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+#sourceNote .noteDot {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin: 0 22px 0 0;
+  background: var(--warn);
+}
+
+[dir="rtl"] #sourceNote .noteDot {
+  margin: 0 0 0 22px;
+}
+
 #overlay {
   position: fixed;
   top: 0;
@@ -171,7 +210,8 @@ body {
 }
 
 #hint {
-  padding-top: 48px;
+  padding-top: 36px;
+  min-height: 1.3em;
 }
 
 /* the connection: 26 sp, with its light (12 dp, 14 dp from the text) */
@@ -202,7 +242,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 48px;
   padding: 16px 24px;
 }
 
@@ -254,6 +294,7 @@ button:focus {
   width: 1920px;
   height: 1080px;
   background: rgba(8, 5, 12, 0.72);
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;

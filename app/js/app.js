@@ -8,9 +8,15 @@
  *   by webOS after a few minutes);
  * - the PC app's TV page (in #overlay), drawing the translations over the whole picture;
  * - the screen (#panel), minimal: not connected, the code to type in VI Translator on the PC;
- *   connected, the connection, "Play on…" and Disconnect. Back hides it over the game, and shows it
- *   again.
+ *   connected, the connection and Disconnect; on both, "Play on…" and Exit. Back hides it over the
+ *   game, and shows it again;
+ * - a note at the top (#sourceNote) while the PC or phone doesn't answer (the phone app paused by
+ *   iOS when the player switches to Remote Play).
  * While the game plays, awake.js keeps the TV from its screen saver.
+ *
+ * Back never leaves the app over the game, or from the screen with a game on: only Exit does, or
+ * Back twice on the screen with no game on. Leaving goes to the console's input, not the TV's home
+ * (while waiting to be connected, Back twice only sends the app to the background, as before).
  *
  * The background service (service/service.js) does what a web app can't: listens for the PC on the
  * home network while waiting to be connected, and asks the PC how it is.
@@ -37,6 +43,8 @@
   var VIDEO_RETRY_MS = [3000, 5000, 10000, 20000, 30000];
   /** hidden this long (another app or the TV's menu in front): the HDMI picture is let go */
   var RELEASE_HIDDEN_MS = 3000;
+  /** Back on the screen with no game on: a second Back within this long leaves */
+  var BACK_AGAIN_MS = 3000;
 
   /** the language button's globe, as on Android TV */
   var GLOBE = "🌐";
@@ -178,37 +186,79 @@
     panelShown = true;
     $("panel").classList.remove("hidden");
     if (!connected()) startPairing();
+    // (an input plugged in or renamed since: in the list when Play on opens)
+    listInputs();
     render();
   }
 
   /** Over the game: the screen hides, the game and its translations stay. */
   function hidePanel() {
     panelShown = false;
+    disarmBack();
     $("panel").classList.add("hidden");
   }
 
+  // ---- leaving --------------------------------------------------------------------------------
+
+  /** the first Back on the screen with no game on: a second one within BACK_AGAIN_MS leaves */
+  var backArmed = null;
+
+  function armBack() {
+    clearTimeout(backArmed);
+    backArmed = setTimeout(disarmBack, BACK_AGAIN_MS);
+    render();
+  }
+
+  function disarmBack() {
+    if (!backArmed) return;
+    clearTimeout(backArmed);
+    backArmed = null;
+    render();
+  }
+
   /**
-   * Back with no game on: the app goes to the background (the TV's home), still waiting to be
-   * connected for a while, with the same code (the PC may be on another input of this TV).
+   * The second Back with no game on. Waiting to be connected: the app goes to the background (still
+   * waiting for a while, with the same code: the PC may be on another input of this TV). Connected:
+   * the app closes, as with Exit.
    */
   function toBackground() {
+    disarmBack();
     var back = (window.webOS && window.webOS.platformBack) || (sys && sys.platformBack);
     if (connected() || !back) {
-      window.close();
+      exitApp();
       return;
     }
     linger();
     try {
       back.call(window.webOS && window.webOS.platformBack ? window.webOS : sys);
     } catch (e) {
+      exitApp();
+    }
+  }
+
+  /**
+   * Exit: the app closes, and the TV goes to the console's input (the last one played), not to its
+   * home screen. (The game's picture is let go first, so the TV's own input app can have it.)
+   */
+  function exitApp() {
+    var input = findInput(load("play_input"));
+    stopVideo();
+    var closed = false;
+    function close() {
+      if (closed) return;
+      closed = true;
       window.close();
     }
+    if (!input) return close();
+    luna("luna://com.webos.applicationManager/launch", { id: input.appId }, close);
+    // (no answer: closed anyway)
+    setTimeout(close, 1500);
   }
 
   function linger() {
     clearTimeout(lingering);
     lingering = setTimeout(function () {
-      if (!connected() && !panelShown) window.close();
+      if (!connected() && !panelShown && !video) window.close();
     }, LINGER_MS);
   }
 
@@ -280,16 +330,18 @@
 
   // ---- the screen's buttons and the remote ---------------------------------------------------
 
-  /** the button the remote is on: "language", "playOn" or "disconnect" */
+  /** the button the remote is on: "language", "playOn", "disconnect" or "exit" */
   var focused = "";
+  var BUTTONS = ["language", "playOn", "disconnect", "exit"];
 
-  /** The row of buttons under the connection (none while waiting). */
+  /**
+   * The row of buttons: Play on and Exit on both screens (the input can be picked before the PC or
+   * phone is connected, e.g. a capture card's passthrough), Disconnect once connected.
+   */
   function row() {
-    var b = [];
-    if (connected()) {
-      b.push("playOn");
-      b.push("disconnect");
-    }
+    var b = ["playOn"];
+    if (connected()) b.push("disconnect");
+    b.push("exit");
     return b;
   }
 
@@ -297,14 +349,21 @@
     var on = connected();
     $("waiting").classList.toggle("hidden", on);
     $("connected").classList.toggle("hidden", !on);
-    $("hint").textContent = t("hide_hint");
+    // (Back hides the screen over a game; with none, a first Back says a second one leaves)
+    $("hint").textContent = backArmed ? t("back_again") : video ? t("hide_hint") : "";
     $("language").textContent = GLOBE + "  " + (chosenName() || t("language_tv"));
+    $("playOn").textContent = t("play_on");
+    $("exit").textContent = t("exit");
+    $("disconnect").classList.toggle("hidden", !on);
     var r = row();
     // (where Android TV puts the focus: the first button under the connection, or the language)
     if (focused !== "language" && r.indexOf(focused) < 0) focused = r.length ? r[0] : "language";
-    ["language", "playOn", "disconnect"].forEach(function (id) {
+    BUTTONS.forEach(function (id) {
       $(id).classList.toggle("focus", id === focused);
     });
+    $("pictureStatus").textContent = pictureNote;
+    $("details").textContent = details();
+    paintNote();
     if (!on) {
       $("enterCode").textContent = t("enter_code");
       $("whereOnPc").textContent = t("where_on_pc");
@@ -324,16 +383,14 @@
     }
     $("dot").style.background = color;
     $("statusText").textContent = text;
-    $("playOn").textContent = t("play_on");
     $("disconnect").textContent = t("disconnect");
-    $("pictureStatus").textContent = pictureNote;
-    $("details").textContent = details();
   }
 
   function press(id) {
     if (id === "language") pickLanguage();
     else if (id === "playOn") pickPlayOn();
     else if (id === "disconnect") disconnect();
+    else if (id === "exit") exitApp();
   }
 
   /** Arrows: up to the language in the corner, down to the buttons, left and right along them. */
@@ -358,6 +415,8 @@
     function (e) {
       var k = e.keyCode;
       var back = k === 461 || k === 27 || k === 8; // Back (the remote), or Esc / Backspace on a keyboard
+      // (appinfo.json's disableBackHistoryAPI: webOS leaves Back to the app; every Back below is
+      // handled and its default prevented, so the page's history never takes it)
       if (!panelShown) {
         // over the game: Back or OK brings the screen back; the other keys do nothing (the game is
         // played on the console's controller)
@@ -365,14 +424,18 @@
         e.preventDefault();
         return;
       }
+      if (!back) disarmBack();
       if (picker) {
         if (back) closePicker();
         else if (k === 38 || k === 40) movePicker(k === 40 ? 1 : -1);
         else if (k === 13) choose(picker.at);
         else return;
       } else if (back) {
-        if (video && playing) hidePanel();
-        else toBackground();
+        // a game on (playing, starting, or coming back after a failure): back to it, never out of
+        // the app. No game: the first Back says so, the second one leaves.
+        if (video) hidePanel();
+        else if (backArmed) toBackground();
+        else armBack();
       } else if (k >= 37 && k <= 40) {
         move(k);
       } else if (k === 13) {
@@ -385,8 +448,24 @@
     true
   );
 
+  // The TV page's frame with the focus would take the remote's keys away from the handler above (the
+  // page doesn't know Back): the focus is taken back to the app's own page. (The video can't take
+  // them: it isn't focusable, and a key on it still passes through this document.)
+  window.addEventListener("blur", function () {
+    setTimeout(function () {
+      var a = document.activeElement;
+      if (document.hidden || !a || a.tagName !== "IFRAME") return;
+      try {
+        a.blur();
+        window.focus();
+      } catch (e) {
+        // (nothing to do)
+      }
+    }, 0);
+  });
+
   // (a pointer: the Magic Remote)
-  ["language", "playOn", "disconnect"].forEach(function (id) {
+  BUTTONS.forEach(function (id) {
     $(id).addEventListener("click", function () {
       focused = id;
       render();
@@ -494,6 +573,8 @@
   var unreachable = 0;
   var finding = false;
   var checking = null;
+  /** a question to the PC on its way (one at a time) */
+  var asking = false;
   var shownUrl = "";
 
   /** The TV page, with this TV's key. */
@@ -511,6 +592,7 @@
     clearTimeout(checking);
     checking = null;
     state = "unreachable";
+    unreachable = 0;
     show("");
   }
 
@@ -542,7 +624,32 @@
     if (shownUrl.indexOf(e.origin + "/") !== 0) return;
     lastAlive = Date.now();
     everAlive = true;
+    // (the PC or phone answers the page again: asked at once, so the note goes as soon as it's back)
+    if (unreachable > 0 && !asking) check();
+    paintNote();
   });
+
+  // ---- the PC or phone not answering ------------------------------------------------------------
+  // iOS pauses VI Translator on the phone when the player switches to Remote Play (and a PC app can be
+  // closed): the page then stops answering. A note at the top says so while it lasts.
+
+  /** the page quiet this long (it asks the PC every few seconds, each within 6 s): not answering */
+  var NOTE_QUIET_MS = 9000;
+
+  function sourceAway() {
+    if (!connected() || document.hidden) return false;
+    // (the PC didn't answer this app's last question; none asked yet: not said)
+    if (unreachable > 0) return true;
+    return everAlive && Date.now() - lastAlive > NOTE_QUIET_MS;
+  }
+
+  function paintNote() {
+    var away = sourceAway();
+    $("sourceNote").classList.toggle("hidden", !away);
+    if (away) $("sourceNoteText").textContent = t("waiting_source");
+  }
+
+  setInterval(paintNote, 1000);
 
   function reloadOverlay() {
     var url = shownUrl;
@@ -567,11 +674,14 @@
   function check() {
     clearTimeout(checking);
     checking = null;
-    if (!connected()) return;
+    if (!connected() || asking) return;
     var pc = load("pc");
     var token = load("token");
+    asking = true;
     luna(SERVICE + "ask", { pc: pc, token: token }, function (r) {
-      if (pc !== load("pc") || token !== load("token")) return; // (changed meanwhile)
+      asking = false;
+      // (changed meanwhile: asked again about the new one, its check skipped while this one was out)
+      if (pc !== load("pc") || token !== load("token")) return check();
       var s = (r && r.state) || "unreachable";
       state = s;
       if (s === "removed") {
@@ -630,11 +740,12 @@
   // real failure (error, abort, emptied, ended) starts it again.
 
   var FAILED = { error: 1, abort: 1, emptied: 1, ended: 1 };
-  /** HDMI inputs ({n, label}): the TV's own list, or the usual four */
+  /** the TV's own inputs ({key: "hdmi:2", appId, label}), from its input service (empty until it answers) */
   var inputs = [];
   var video = null;
   var playing = false;
-  var videoInput = 0;
+  /** the input playing ({key, appId, label}), or null */
+  var videoInput = null;
   var noPicture = null;
   var retryTimer = null;
   var retryN = 0;
@@ -648,56 +759,118 @@
   /** said under the buttons: no picture from the input */
   var pictureNote = "";
 
+  /** the kinds of input webOS plays in an app ("ext://hdmi:1"), by how its input service names them */
+  var KINDS = { hdmi: ["hdmi", "HDMI"], av: ["av", "AV"], comp: ["comp", "Component"], component: ["comp", "Component"] };
+  var KIND_ORDER = { hdmi: 0, av: 1, comp: 2 };
+
+  /** An input of the TV's input service ({id: "HDMI_2", appId: "com.webos.app.hdmi2", label}), or null. */
+  function inputOf(d) {
+    if (!d) return null;
+    var names = [d.appId, d.id];
+    for (var i = 0; i < names.length; i++) {
+      var m = typeof names[i] === "string" && names[i].match(/(?:^|[._])(hdmi|av|component|comp)[_ ]?(\d*)$/i);
+      if (!m) continue;
+      var kind = KINDS[m[1].toLowerCase()];
+      var n = Number(m[2]) || 1;
+      var port = kind[1] + " " + n;
+      // (the name the TV gives the device on it: "PS5", or one the user typed in the TV's input list)
+      var name = [d.label, d.deviceName, d.name].filter(function (s) {
+        return typeof s === "string" && s.trim() && bare(s) !== bare(port);
+      })[0];
+      return {
+        key: kind[0] + ":" + n,
+        appId: typeof d.appId === "string" && d.appId ? d.appId : "com.webos.app." + kind[0] + n,
+        label: name ? port + " (" + name.trim() + ")" : port,
+      };
+    }
+    return null;
+  }
+
+  /** "HDMI_1", "hdmi 1", "HDMI1" alike */
+  function bare(s) {
+    return String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  /** The TV's inputs, asked again each time the screen shows (a device plugged in, an input renamed). */
   function listInputs() {
     luna("luna://com.webos.service.eim/getAllInputStatus", {}, function (r) {
       var list = [];
       var devices = (r && (r.devices || r.inputSourceList)) || [];
       for (var i = 0; i < devices.length; i++) {
-        var d = devices[i];
-        var m = d && typeof d.appId === "string" && d.appId.match(/hdmi(\d)$/i);
-        if (!m) continue;
-        var port = "HDMI " + m[1];
-        var name = d.label && d.label !== port ? port + " (" + d.label + ")" : port;
-        list.push({ n: Number(m[1]), label: name });
+        var input = inputOf(devices[i]);
+        if (input && !findIn(list, input.key)) list.push(input);
       }
-      inputs = list;
+      if (list.length || !inputs.length) inputs = list;
       render();
     });
   }
 
+  /**
+   * The inputs Play on offers: every one the TV lists (HDMI, AV, component), and HDMI 1 to 4 always,
+   * even those the TV leaves out (some list only the inputs with a device they recognise: a capture
+   * card's passthrough may not be one), in the TV's order: HDMI by number, then the others.
+   */
   function playInputs() {
-    if (inputs.length) return inputs;
-    var list = [];
-    for (var n = 1; n <= 4; n++) list.push({ n: n, label: "HDMI " + n });
+    var list = inputs.slice();
+    for (var n = 1; n <= 4; n++) {
+      if (!findIn(list, "hdmi:" + n)) list.push({ key: "hdmi:" + n, appId: "com.webos.app.hdmi" + n, label: "HDMI " + n });
+    }
+    list.sort(function (a, b) {
+      var ka = a.key.split(":");
+      var kb = b.key.split(":");
+      return KIND_ORDER[ka[0]] - KIND_ORDER[kb[0]] || Number(ka[1]) - Number(kb[1]);
+    });
     return list;
+  }
+
+  function findIn(list, key) {
+    for (var i = 0; i < list.length; i++) if (list[i].key === key) return list[i];
+    return null;
+  }
+
+  /** The input saved as `key` ("hdmi:2"), or null. (Saved by earlier versions as "play_hdmi" = 2.) */
+  function findInput(key) {
+    if (!key) {
+      var n = Number(load("play_hdmi")) || 0;
+      if (!n) return null;
+      key = "hdmi:" + n;
+    }
+    var known = findIn(playInputs(), key);
+    if (known) return known;
+    var k = key.split(":");
+    if (!KINDS[k[0]] || !(Number(k[1]) > 0)) return null;
+    return { key: key, appId: "com.webos.app." + k[0] + k[1], label: KINDS[k[0]][1] + " " + k[1] };
   }
 
   /** Play on: the input the console is on (kept: the app starts with it next time). */
   function pickPlayOn() {
     var list = playInputs();
-    var last = Number(load("play_hdmi")) || 0;
+    var last = findInput(load("play_input"));
     var names = [];
     var checked = 0;
     for (var i = 0; i < list.length; i++) {
       names.push(list[i].label);
-      if (list[i].n === last) checked = i;
+      if (last && list[i].key === last.key) checked = i;
     }
     openPicker(t("play_on").replace(/[\s…:.]+$/, ""), names, checked, function (which) {
-      var n = list[which].n;
-      save("play_hdmi", String(n));
+      var input = list[which];
+      save("play_input", input.key);
+      save("play_hdmi", "");
       pictureNote = "";
-      play(n);
+      play(input);
       hidePanel();
     });
   }
 
-  /** The game from HDMI input n (a new video). `again`: a retry after the picture failed. */
-  function play(n, again) {
+  /** The game from an input (a new video). `again`: a retry after the picture failed. */
+  function play(input, again) {
     stopVideo(again);
-    videoInput = n;
+    videoInput = input;
     var v = document.createElement("video");
     v.autoplay = true;
     v.setAttribute("autoplay", "");
+    // (never focused: the remote's keys stay with the app's page)
+    v.tabIndex = -1;
     // exactly the window's size, inline: webOS counts only a video filling the screen as playing (one
     // that doesn't can let the screen saver in, as YouTube's webOS app found)
     v.style.left = "0px";
@@ -706,7 +879,7 @@
     v.style.height = (window.innerHeight || 1080) + "px";
     var src = document.createElement("source");
     src.setAttribute("type", "service/webos-external");
-    src.setAttribute("src", "ext://hdmi:" + n);
+    src.setAttribute("src", "ext://" + input.key);
     v.appendChild(src);
     ["playing", "error", "abort", "emptied", "ended", "stalled", "waiting"].forEach(function (name) {
       v.addEventListener(name, function () {
@@ -767,20 +940,20 @@
     if (!videoInput) return "";
     var saver = awake.stats();
     return (
-      "HDMI " + videoInput + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "") +
+      KINDS[videoInput.key.split(":")[0]][1] + " " + videoInput.key.split(":")[1] + " · restarts " + restarts + (lastEvent ? " · " + lastEvent : "") + (hides ? " · hidden " + hides + "×" : "") +
       " · saver " + saver.answered + "/" + saver.asked + " reg " + saver.regs + (saver.reg && saver.reg !== "ok" ? " (" + saver.reg + ")" : "") +
       (saver.no ? " no " + saver.no : "")
     );
   }
 
   function onNoPicture() {
-    pictureNote = t("no_picture", "HDMI " + videoInput);
+    pictureNote = t("no_picture", videoInput.label);
     showPanel();
     focused = "playOn";
     render();
   }
 
-  /** The HDMI picture let go (another app in front, or Back to leave). `again`: for a retry. */
+  /** The input's picture let go (another app in front, or Exit). `again`: for a retry. */
   function stopVideo(again) {
     if (!again) {
       clearTimeout(noPicture);
@@ -807,14 +980,19 @@
 
   // ---- in front, behind, opened again ----------------------------------------------------------
 
-  /** In front again: the game back if it was on, the PC asked at once. */
+  /** the input let go while the app was hidden: played again when it shows */
+  var releasedInput = null;
+
+  /** In front again: the game back if it was on (or, connected, the saved input), the PC asked at once. */
   function resume() {
     clearTimeout(releaseTimer);
     releaseTimer = null;
-    var n = Number(load("play_hdmi")) || 0;
-    if (connected() && n && !video) play(n);
+    var input = releasedInput || (connected() ? findInput(load("play_input")) : null);
+    releasedInput = null;
+    if (input && !video) play(input);
     else if (video && playing) awake(true);
     if (connected()) check();
+    paintNote();
   }
 
   document.addEventListener("visibilitychange", function () {
@@ -828,7 +1006,9 @@
     clearTimeout(releaseTimer);
     releaseTimer = setTimeout(function () {
       releaseTimer = null;
-      if (document.hidden) stopVideo();
+      if (!document.hidden || !video) return;
+      releasedInput = videoInput;
+      stopVideo();
     }, RELEASE_HIDDEN_MS);
   });
 
@@ -854,7 +1034,7 @@
   });
   listInputs();
   // connected, with the console's input known: straight to the game
-  var startInput = Number(load("play_hdmi")) || 0;
+  var startInput = findInput(load("play_input"));
   if (connected() && startInput) {
     hidePanel();
     play(startInput);
